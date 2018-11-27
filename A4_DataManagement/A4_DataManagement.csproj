@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerType.cs" />
-    <Compile Include="CoffeeShopSimulator.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="LineupQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

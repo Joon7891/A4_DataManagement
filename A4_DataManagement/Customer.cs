@@ -17,12 +17,17 @@ namespace A4_DataManagement
         public string Name { get; }
 
         public double WaitTime { get => Math.Round(waitTime, 2); }
-        private double waitTime;
+        private double waitTime = 0;
 
         private readonly CustomerType customerType;
 
         private Rectangle rectangle;
         private Texture2D image;
+
+        static Customer()
+        {
+
+        }
 
         public Customer(CustomerType customerType, string name)
         {
@@ -36,7 +41,8 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Update(GameTime gameTime)
         {
-
+            //Incrementing wait time
+            waitTime += gameTime.ElapsedGameTime.Milliseconds / 1000.0;
         }
 
         /// <summary>

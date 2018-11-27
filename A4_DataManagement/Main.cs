@@ -1,11 +1,12 @@
 ﻿// Author: Joon Song
-// File Name: CoffeeShopSimulator.cs
+// File Name: Main.cs
 // Project Name: A4_DataManagement
 // Creation Date: 11/26/2018
 // Modified Date: 12/09/2018
 // Description: Progarm to simulate a coffee shop
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,14 +15,16 @@ namespace A4_DataManagement
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class CoffeeShopSimulator : Game
+    public class Main : Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        public new ContentManager Content { get; private set; }
+
         private LineupQueue lineup = new LineupQueue();
 
-        public CoffeeShopSimulator()
+        public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -40,6 +43,9 @@ namespace A4_DataManagement
             graphics.PreferredBackBufferWidth = SharedData.SCREEN_WIDTH;
             graphics.ApplyChanges();
             IsMouseVisible = true;
+
+            //Setting up ContentManager
+            Content = base.Content;
 
             // Initializing game
             base.Initialize();

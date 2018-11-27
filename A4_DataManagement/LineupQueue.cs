@@ -35,10 +35,7 @@ namespace A4_DataManagement
                 newCustomerTimer -= newCustomerTimer;
                 newCustomerType = SharedData.RNG.Next(0, 3);
                 ++customerTypesCounter[newCustomerType];
-            }
-
-            // 
-            
+            }            
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -83,6 +80,24 @@ namespace A4_DataManagement
 
         }
         
-        public Customer 
+        /// <summary>
+        /// Subprogram to dequeue the first customer in the line
+        /// </summary>
+        /// <returns>The first customer in the line</returns>
+        public Customer Dequeue()
+        {
+            // Caching the first customer in the line
+            Customer firstCustomer = null;
+
+            // Removing and setting first customer in the line
+            if (lineupCustomers.Count > 0)
+            {
+                firstCustomer = lineupCustomers[0];
+                lineupCustomers.RemoveAt(0);
+            }
+
+            // Returning the first customer in the line
+            return firstCustomer;
+        }
     }
 }
