@@ -12,14 +12,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public sealed class Customer
+    public abstract class Customer
     {
         public string Name { get; }
 
         public double WaitTime { get => Math.Round(waitTime, 2); }
         private double waitTime = 0;
 
-        private readonly CustomerType customerType;
 
         private Rectangle rectangle;
         private Texture2D image;
@@ -29,9 +28,8 @@ namespace A4_DataManagement
 
         }
 
-        public Customer(CustomerType customerType, string name)
+        public Customer(string name)
         {
-            this.customerType = customerType;
             Name = name;
         }
 

@@ -41,12 +41,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BothCustomer.cs" />
+    <Compile Include="CoffeeCustomer.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="CustomerType.cs" />
+    <Compile Include="FoodCustomer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="LineupQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceAmountBar.cs" />
     <Compile Include="SharedData.cs" />
     <Compile Include="SortHelper.cs" />
   </ItemGroup>

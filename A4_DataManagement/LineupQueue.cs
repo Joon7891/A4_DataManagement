@@ -72,7 +72,7 @@ namespace A4_DataManagement
         private Customer[] GetSortedWaitTimes()
         {
             // Calling MergeSort subprogram and returning sorted array
-            return SortHelper<Customer>.MergeSort(customers.ToArray(), (a, b) => a.WaitTime >= b.WaitTime);
+            return SortHelper<Customer>.MergeSort(lineupCustomers.ToArray(), (a, b) => a.WaitTime >= b.WaitTime);
         }
 
         public void Enqueue(Customer customer)
