@@ -22,6 +22,8 @@ namespace A4_DataManagement
         private Customer[] insideCustomers = new Customer[INSIDE_LINE_SIZE];
         private List<Customer> outsideCustomers = new List<Customer>();
 
+        public int InsideCustomersCount { get; private set; }
+
         /// <summary>
         /// The count of the line up
         /// </summary>
@@ -79,20 +81,21 @@ namespace A4_DataManagement
                 {
                     insideCustomers[i - 1] = insideCustomers[i];
                 }
+                insideCustomers[INSIDE_LINE_SIZE - 1] = null;
 
-                // Moving customer from outside of the liine to the inside
-                if (outsideCustomers.Count > 0)
-                {
-                    insideCustomers[INSIDE_LINE_SIZE - 1] = outsideCustomers[0];
-                    outsideCustomers.RemoveAt(0);
-                }
-
-                // Decrementing count
                 --Count;
             }
 
             // Returning first customer in the line
             return firstCustomer;
+        }
+
+        /// <summary>
+        /// Subprogram to move a customer from the outside line to the inside line
+        /// </summary>
+        public void MoveInside()
+        {
+
         }
     }
 }

@@ -13,12 +13,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public sealed class Customer
+    public abstract class Customer
     {
         /// <summary>
         /// The name of the customer
         /// </summary>
-        public string Name { get; }
+        public string Name { get; protected set; }
 
         /// <summary>
         /// The current wait time of the customer
@@ -37,7 +37,7 @@ namespace A4_DataManagement
 
         // Time related variables
         private double waitTime = 0;
-        private double serviceTime;
+        protected double serviceTime;
 
         // Customer image, rectangle, and movement related variables
         private static Texture2D image;
@@ -46,40 +46,6 @@ namespace A4_DataManagement
         private double nonRoundedX;
         private double nonRoundedY;
         private Vector2 velocity = new Vector2();
-
-        // Hashmap for various various service times and counts for each type of customer 
-        private static Dictionary<CustomerType, int> customerServiceTimes = new Dictionary<CustomerType, int>();
-        private static Dictionary<CustomerType, int> customerCounts = new Dictionary<CustomerType, int>();
-
-        /// <summary>
-        /// Static constructor to set up various Customer components
-        /// </summary>
-        static Customer()
-        {
-            // Setting up customer service times hashmap
-            customerCounts.Add(CustomerType.Coffee, 12);
-            customerCounts.Add(CustomerType.Food, 18);
-            customerCounts.Add(CustomerType.Both, 30);
-
-            // Setting up customer counts hashmap
-            for (CustomerType customerType = CustomerType.Coffee; customerType <= CustomerType.Both; ++customerType)
-            {
-                customerServiceTimes.Add(customerType, 0);
-            }
-        }
-
-        /// <summary>
-        /// Constructor for Customer object
-        /// </summary>
-        public Customer()
-        {
-            // TO DO: Cache CustomerType?
-
-            // Randomly generating customer type and setting appropraite data
-            CustomerType customerType = (CustomerType)SharedData.RNG.Next(0, 3);
-            serviceTime = customerServiceTimes[customerType];
-            Name = $"{customerType.ToString()}{++customerCounts[customerType]}";
-        }
 
         /// <summary>
         /// Update subprogram for Customer object

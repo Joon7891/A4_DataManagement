@@ -41,9 +41,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Customer\BothCustomer.cs" />
+    <Compile Include="Customer\CoffeeCustomer.cs" />
+    <Compile Include="Customer\FoodCustomer.cs" />
     <Compile Include="Store\ServiceLine.cs" />
     <Compile Include="Customer\Customer.cs" />
-    <Compile Include="Customer\CustomerType.cs" />
     <Compile Include="Core\CoffeeShopSimulation.cs" />
     <Compile Include="Store\LineupQueue.cs" />
     <Compile Include="Core\Program.cs" />

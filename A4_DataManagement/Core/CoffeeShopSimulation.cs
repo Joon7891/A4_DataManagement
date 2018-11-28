@@ -104,15 +104,15 @@ namespace A4_DataManagement
             lineupCustomers.Update(gameTime);
             cashierCustomers.Update(gameTime);
 
+            Console.WriteLine($"{cashierCustomers.TotalCount} - {4 - cashierCustomers.SpotsAvailable} - {cashierCustomers.SpotsAvailable} - {lineupCustomers.InsideCustomersCount} - {lineupCustomers.Count}");
+
             // Adding a customer to the service line every 3 seconds
             addTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             if (addTimer >= ADD_TIME)
             {
-                lineupCustomers.Enqueue(new Customer());
+                lineupCustomers.Enqueue(GenerateRandomCustomer());
                 addTimer -= ADD_TIME;
             }
-
-            Console.WriteLine(lineupCustomers.Count);
             
             // Moving customer from lineup to cashier if possible
             if (cashierCustomers.SpotsAvailable > 0 && lineupCustomers.Count > 0)
@@ -120,6 +120,11 @@ namespace A4_DataManagement
                 cashierCustomers.Add(lineupCustomers.Dequeue());
             }
 
+            // Moving a customer from the outside of the shop to the inside, if possible
+            if (cashierCustomers.TotalCount + lineupCustomers.InsideCustomersCount < 20)
+            {
+                lineupCustomers.MoveInside();
+            }
 
             // Updating game
             base.Update(gameTime);
@@ -135,6 +140,36 @@ namespace A4_DataManagement
 
             // Drawing game
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Subprogram to generate a random customer
+        /// </summary>
+        /// <returns></returns>
+        private Customer GenerateRandomCustomer()
+        {
+            // Caching customer type and customer instance
+            int customerType = SharedData.RNG.Next(0, 3);
+            Customer customer = null;
+
+            // Constructing appropriate customer given customer type
+            switch(customerType)
+            {
+                case 0:
+                    customer = new CoffeeCustomer();
+                    break;
+
+                case 1:
+                    customer = new FoodCustomer();
+                    break;
+
+                case 2:
+                    customer = new BothCustomer();
+                    break;
+            }
+
+            // Returning randomly generate customer
+            return customer;
         }
     }
 }

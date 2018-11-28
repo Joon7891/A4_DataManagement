@@ -2,7 +2,8 @@
 // File Name: ServiceLine.cs
 // Project Name: A4_DataManagement
 // Creation Date: 11/27/2018
-// Modified Date: 
+// Modified Date: 12/04/2018
+// Description: Class to hold ServiceLine object
 
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,16 @@ namespace A4_DataManagement
 {
     public sealed class ServiceLine
     {
-        private const int CASHER_NUM = 4;
-        private Customer[] customers = new Customer[CASHER_NUM];
+        private const int CASHIER_NUM = 4;
+        private Customer[] cashierCustomers = new Customer[CASHIER_NUM];
         private List<Customer> exitingCustomers = new List<Customer>();
 
-        private static Rectangle[] cashierRectangles = new Rectangle[CASHER_NUM];
+        private static Rectangle[] cashierRectangles = new Rectangle[CASHIER_NUM];
         private static Rectangle exitRectangle;
 
-        public int SpotsAvailable => customers.Count(customer => customer == null);
+        public int SpotsAvailable => cashierCustomers.Count(customer => customer == null);
+
+        public int TotalCount => (CASHIER_NUM - SpotsAvailable) + exitingCustomers.Count;
 
         static ServiceLine()
         {
@@ -38,33 +41,46 @@ namespace A4_DataManagement
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < CASHER_NUM; ++i)
+            for (int i = 0; i < CASHIER_NUM; ++i)
             {
-                if (customers[i] != null)
+                if (cashierCustomers[i] != null)
                 {
-                    if (!customers[i].IsMoving)
+                    if (!cashierCustomers[i].IsMoving)
                     {
-                        if (customers[i].Serviced)
+                        if (cashierCustomers[i].Serviced)
                         {
-                            exitingCustomers.Add(customers[i]);
-                            customers[i] = null;
+                            cashierCustomers[i].SetMovement(exitRectangle, 0.5f * i);
+                            exitingCustomers.Add(cashierCustomers[i]);
+                            cashierCustomers[i] = null;
                         }
                         else
                         {
-                            customers[i].Serve(gameTime);
+                            cashierCustomers[i].Serve(gameTime);
                         }
                     }
+                }
+            }
+
+            for (int i = 0; i < exitingCustomers.Count; ++i)
+            {
+                exitingCustomers[i].Update(gameTime);
+
+                if (!exitingCustomers[i].IsMoving)
+                {
+                    exitingCustomers.RemoveAt(i);
+                    --i;
                 }
             }
         }
 
         public void Add(Customer customer)
         {
-            for (byte i = 0; i < CASHER_NUM; ++i)
+            for (byte i = 0; i < CASHIER_NUM; ++i)
             {
-                if (customers[i] == null)
+                if (cashierCustomers[i] == null)
                 {
-                    customers[i] = customer;
+                    cashierCustomers[i] = customer;
+                    break;
                 }
             }
         }
