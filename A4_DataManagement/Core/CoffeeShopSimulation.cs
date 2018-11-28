@@ -1,10 +1,11 @@
 ﻿// Author: Joon Song
-// File Name: Main.cs
+// File Name: CoffeeShopSimulation.cs
 // Project Name: A4_DataManagement
 // Creation Date: 11/26/2018
 // Modified Date: 12/09/2018
 // Description: Progarm to simulate a coffee shop
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,18 +16,37 @@ namespace A4_DataManagement
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Main : Game
+    public class CoffeeShopSimulation : Game
     {
+        // Instances of graphics classes for in-game graphics
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        /// <summary>
+        /// Instance of ContentManager - used for loading various content
+        /// </summary>
         public new ContentManager Content { get; private set; }
 
-        private LineupQueue lineup = new LineupQueue();
+        /// <summary>
+        /// The current keyboard state
+        /// </summary>
+        public static KeyboardState NewKeyboard { get; private set; }
 
-        public Main()
+        /// <summary>
+        /// The state of the keyboard one frame back
+        /// </summary>
+        public static KeyboardState OldKeyboard { get; private set; }
+
+        // Customer related-data
+        private ServiceLine cashierCustomers = new ServiceLine();
+        private LineupQueue lineupCustomers = new LineupQueue();
+        private const int ADD_TIME = 3;
+        private float addTimer = 0;
+
+        public CoffeeShopSimulation()
         {
             graphics = new GraphicsDeviceManager(this);
+            Content = base.Content;
             Content.RootDirectory = "Content";
         }
 
@@ -43,9 +63,6 @@ namespace A4_DataManagement
             graphics.PreferredBackBufferWidth = SharedData.SCREEN_WIDTH;
             graphics.ApplyChanges();
             IsMouseVisible = true;
-
-            //Setting up ContentManager
-            Content = base.Content;
 
             // Initializing game
             base.Initialize();
@@ -79,11 +96,32 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            // Updating keyboard states
+            OldKeyboard = NewKeyboard;
+            NewKeyboard = Keyboard.GetState();
 
-            // TODO: Add your update logic here
+            // Updating customers in line up and cashier
+            lineupCustomers.Update(gameTime);
+            cashierCustomers.Update(gameTime);
 
+            // Adding a customer to the service line every 3 seconds
+            addTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            if (addTimer >= ADD_TIME)
+            {
+                lineupCustomers.Enqueue(new Customer());
+                addTimer -= ADD_TIME;
+            }
+
+            Console.WriteLine(lineupCustomers.Count);
+            
+            // Moving customer from lineup to cashier if possible
+            if (cashierCustomers.SpotsAvailable > 0 && lineupCustomers.Count > 0)
+            {
+                cashierCustomers.Add(lineupCustomers.Dequeue());
+            }
+
+
+            // Updating game
             base.Update(gameTime);
         }
 
@@ -93,10 +131,9 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
 
+            // Drawing game
             base.Draw(gameTime);
         }
     }
