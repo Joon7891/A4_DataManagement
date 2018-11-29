@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
@@ -19,14 +22,34 @@ namespace A4_DataManagement
         private const int SERVICE_TIME = 12;
         private static int instancesCounter = 0;
 
+        // 2D array to hold directional images for CoffeeCustomer
+        private new static Texture2D[,] directionalImages = new Texture2D[4, 3];
+
+        /// <summary>
+        /// Static constuctor to set up various CoffeeCustomer components
+        /// </summary>
+        static CoffeeCustomer()
+        {
+            // Importing directional images for CoffeeCustomer
+            for (Direction direction = Direction.Up; direction <= Direction.Left; ++direction)
+            {
+                for (int i = 0; i < directionalImages.GetLength(1); ++i)
+                {
+                    directionalImages[(int)direction, i] = CoffeeShopSimulation.Content.Load<Texture2D>
+                        ($"Images/Sprites/Customers/CoffeeCustomer/coffeeCustomer{direction.ToString()}{i}");
+                }
+            }
+        }
+
         /// <summary>
         /// Constructor for CoffeeCustomer object
         /// </summary>
-        public CoffeeCustomer()
+        public CoffeeCustomer() : base()
         {
-            // Setting customer service time and name
+            // Setting up various coffee customer attributes
             serviceTime = SERVICE_TIME;
             Name = $"Coffee{++instancesCounter}";
+            base.directionalImages = directionalImages;
         }
 
     }

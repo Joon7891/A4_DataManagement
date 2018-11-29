@@ -25,7 +25,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Instance of ContentManager - used for loading various content
         /// </summary>
-        public new ContentManager Content { get; private set; }
+        public new static ContentManager Content { get; private set; }
 
         /// <summary>
         /// The current keyboard state
@@ -136,7 +136,13 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            // Beginning spriteBatch
+            spriteBatch.Begin();
 
+
+
+            // Ending spriteBatch
+            spriteBatch.End();
 
             // Drawing game
             base.Draw(gameTime);

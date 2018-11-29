@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Customer\BothCustomer.cs" />
     <Compile Include="Customer\CoffeeCustomer.cs" />
+    <Compile Include="Customer\Direction.cs" />
     <Compile Include="Customer\FoodCustomer.cs" />
     <Compile Include="Store\ServiceLine.cs" />
     <Compile Include="Customer\Customer.cs" />

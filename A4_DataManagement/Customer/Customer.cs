@@ -39,13 +39,22 @@ namespace A4_DataManagement
         private double waitTime = 0;
         protected double serviceTime;
 
-        // Customer image, rectangle, and movement related variables
-        private static Texture2D image;
+        // Graphics related-data
+        protected Texture2D[,] directionalImages;
+        private Texture2D currentImage;
+
+
+
         private Rectangle rectangle;
         private Rectangle targetRectangle = new Rectangle();
         private double nonRoundedX;
         private double nonRoundedY;
         private Vector2 velocity = new Vector2();
+
+        public Customer()
+        {
+            currentImage = directionalImages[0, 0];
+        }
 
         /// <summary>
         /// Update subprogram for Customer object
@@ -70,7 +79,8 @@ namespace A4_DataManagement
         /// <param name="spriteBatch">SpriteBatch to draw sprites</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // TO DO: Add Customer Sprites
+            // Drawing customer
+            spriteBatch.Draw(currentImage, rectangle, Color.White);
         }
 
         /// <summary>
