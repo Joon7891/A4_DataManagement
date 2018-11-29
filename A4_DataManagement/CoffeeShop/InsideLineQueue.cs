@@ -18,8 +18,13 @@ namespace A4_DataManagement
 {
     public sealed class InsideLineQueue : IQueue<Customer>, IEntity
     {
+        // Array of the customers in the inside line
         private const int MAX_SIZE = 16;
         private Customer[] customers = new Customer[MAX_SIZE];
+
+        // Customer rectangle realted variabes
+        private const int VERTICAL_BUFFER = 150;
+        private static Rectangle[] customerRectangles = new Rectangle[MAX_SIZE];
 
         /// <summary>
         /// The number of customers in the inside line queue
@@ -32,6 +37,50 @@ namespace A4_DataManagement
         public bool IsEmpty => Size == 0;
 
         /// <summary>
+        /// Static constructor to setup InsideLineQueue class
+        /// </summary>
+        static InsideLineQueue()
+        {
+            // Setting up customer rectangles
+            for (int i = 0; i < MAX_SIZE; ++i)
+            {
+                customerRectangles[i] = GetCustomerRectangle(i);
+            }
+        }
+
+        /// <summary>
+        /// Subprogram to generate the customer rectangle
+        /// </summary>
+        /// <param name="index">The index of the customer rectangle</param>
+        /// <returns>The customer rectangle</returns>
+        private static Rectangle GetCustomerRectangle(int index)
+        {
+            if (index == 0)
+            {
+                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2, VERTICAL_BUFFER, 
+                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            }
+            else if (index < 5)
+            {
+                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 1),
+                    VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            }
+            else if (index == 5)
+            {
+                return new Rectangle(SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
+                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            }
+            else if (index < 13)
+            {
+                //return new Rectangle(SharedData.SCREEN_HEIGHT - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 5), VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_WIDTH,
+                //    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            }
+
+            return new Rectangle();
+              
+        }
+
+        /// <summary>
         /// Subprogram to add a customer to the back of the inside line queue
         /// </summary>
         /// <param name="customer"></param>
@@ -40,7 +89,8 @@ namespace A4_DataManagement
             // Adding customer to the end of the queue if there is room
             if (Size < MAX_SIZE)
             {
-                customers[Size++ - 1] = customer;
+                customer.SetMovement(customerRectangles[Size]);
+                customers[Size++] = customer;
             }
         }
 
@@ -56,6 +106,7 @@ namespace A4_DataManagement
             // Shifting customers down the line
             for (int i = 1; i < Math.Min(Size, MAX_SIZE); ++i)
             {
+                customers[i].SetMovement(customerRectangles[i - 1]);
                 customers[i - 1] = customers[i];
             }
 

@@ -19,6 +19,7 @@ namespace A4_DataManagement
 {
     public sealed class OutsideLineQueue : IQueue<Customer>, IEntity
     {
+        // List of customers in the outside line
         private List<Customer> customers = new List<Customer>();
 
         /// <summary>

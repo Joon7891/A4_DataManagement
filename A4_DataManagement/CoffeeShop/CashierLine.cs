@@ -44,10 +44,10 @@ namespace A4_DataManagement
         static CashierLine()
         {
             // Setting up customer rectangles
-            exitRectangle = new Rectangle(-80, 60, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            exitRectangle = new Rectangle(-80, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             for (int i = 0; i < NUM_CASHIER; ++i)
             {
-                cashierRectangles[i] = new Rectangle(74 + 200 * i, 60, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                cashierRectangles[i] = new Rectangle(74 + 200 * i, 50, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
         }
 
@@ -57,23 +57,27 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Update(GameTime gameTime)
         {
-            // Updating customers with cashiers
+            // Iterating through each cashier customer
             for (int i = 0; i < NUM_CASHIER; ++i)
             {
-                cashierCustomers[i]?.Update(gameTime);
-
-                // Serving customer if they are at the cashier
-                if ((bool)!cashierCustomers[i]?.IsMoving)
+                if (cashierCustomers[i] != null)
                 {
-                    cashierCustomers[i].Serve(gameTime);
-                }
+                    // Updating customer
+                    cashierCustomers[i].Update(gameTime);
 
-                // Making customer exit if they have been servied
-                if ((bool)cashierCustomers[i]?.Serviced)
-                {
-                    cashierCustomers[i].SetMovement(exitRectangle, 0.5f * i);
-                    exitingCustomers.Add(cashierCustomers[i]);
-                    cashierCustomers[i] = null;
+                    // Serving customers at the cashier
+                    if (!cashierCustomers[i].IsMoving)
+                    {
+                        cashierCustomers[i].Serve(gameTime);
+                    }
+
+                    // Making customer exit if they have been servied
+                    if (cashierCustomers[i].Serviced)
+                    {
+                        cashierCustomers[i].SetMovement(exitRectangle);
+                        exitingCustomers.Add(cashierCustomers[i]);
+                        cashierCustomers[i] = null;
+                    }
                 }
             }
 
@@ -115,7 +119,7 @@ namespace A4_DataManagement
                 if (cashierCustomers[i] == null)
                 {
                     cashierCustomers[i] = customer;
-                    cashierCustomers[i].SetMovement(cashierRectangles[i], 0.5f * i);
+                    cashierCustomers[i].SetMovement(cashierRectangles[i]);
                     return;
                 }
             }

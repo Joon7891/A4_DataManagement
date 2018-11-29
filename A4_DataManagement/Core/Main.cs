@@ -40,8 +40,6 @@ namespace A4_DataManagement
         // Instance of the coffee shop
         private CoffeeShop coffeeShop = new CoffeeShop();
 
-        private BothCustomer test;
-
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -75,10 +73,6 @@ namespace A4_DataManagement
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            test = new BothCustomer();
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -101,10 +95,8 @@ namespace A4_DataManagement
             OldKeyboard = NewKeyboard;
             NewKeyboard = Keyboard.GetState();
 
-            test.Update(gameTime);
-
             // Updating coffee shop
-            //coffeeShop.Update(gameTime);
+            coffeeShop.Update(gameTime);
 
             // Updating game
             base.Update(gameTime);
@@ -121,10 +113,8 @@ namespace A4_DataManagement
             // Beginning spriteBatch
             spriteBatch.Begin();
 
-            test.Draw(spriteBatch);
-
             // Drawing coffee shop
-            //coffeeShop.Draw(spriteBatch);            
+            coffeeShop.Draw(spriteBatch);            
 
             // Ending spriteBatch
             spriteBatch.End();

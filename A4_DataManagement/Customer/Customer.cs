@@ -57,7 +57,7 @@ namespace A4_DataManagement
         {
             //currentImage = directionalImages[0, 0];
             rectangle = new Rectangle(700, 500, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-            SetMovement(new Rectangle(100, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT), 3.0f);
+            SetMovement(new Rectangle(100, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT));
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace A4_DataManagement
                 if (Math.Abs(rectangle.X - targetRectangle.X) * 60 < Math.Abs(velocity.X))
                 {
                     velocity.X = (targetRectangle.X - rectangle.X) * 60;
-                    currentDirection = velocity.Y < 0 ? Direction.Up : Direction.Down;
+                    currentDirection = velocity.Y > 0 ? Direction.Down : Direction.Up;
                 }
 
                 // Moving customer rectangle
@@ -145,24 +145,33 @@ namespace A4_DataManagement
         /// </summary>
         /// <param name="targetRectangle">The target rectangle Customer is to move to</param>
         /// <param name="movementTime">The time in which Customer is to move</param>
-        public void SetMovement(Rectangle targetRectangle, float movementTime)
+        public void SetMovement(Rectangle targetRectangle)
         {
-            // Caching various distance and time related variables
-            int xDistance = targetRectangle.X - rectangle.X;
-            int yDistance = targetRectangle.Y - rectangle.Y;
-            int manhattenDistance = xDistance = yDistance;
-            float xTime = movementTime * (xDistance / (float) manhattenDistance);
-            float yTime = movementTime * (yDistance / (float) manhattenDistance);
+            // Setting up x component of velocity vector
+            if (targetRectangle.X - rectangle.X != 0)
+            {
+                velocity.X = 200 * (targetRectangle.X - rectangle.X > 0 ? 1 : -1);
+                currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
+            }
+            else
+            {
+                velocity.X = 0;
+            }
 
-            // Setting up velocity vector
-            velocity.X = (targetRectangle.X - rectangle.X) / movementTime;
-            velocity.Y = (targetRectangle.Y - rectangle.Y) / movementTime;
+            // Setting up y component of velocity vector
+            if (targetRectangle.Y - rectangle.Y != 0)
+            {
+                velocity.Y = 200 * (targetRectangle.Y - rectangle.Y > 0 ? 1 : -1);
+            }
+            else
+            {
+                velocity.Y = 0;
+            }
 
             // Setting various variables to ensure proper correlation of movement
             nonRoundedX = rectangle.X;
             nonRoundedY = rectangle.Y;
             this.targetRectangle = targetRectangle;
-            currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
         }
     }
 }
