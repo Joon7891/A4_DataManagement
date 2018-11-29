@@ -26,7 +26,7 @@ namespace A4_DataManagement
         public static bool NewKeyStroke(Keys key)
         {
             //Returning true of keystroke is detected to be a new one
-            if (CoffeeShopSimulation.NewKeyboard.IsKeyDown(key) && !CoffeeShopSimulation.OldKeyboard.IsKeyDown(key))
+            if (Main.NewKeyboard.IsKeyDown(key) && !Main.OldKeyboard.IsKeyDown(key))
             {
                 return true;
             }

@@ -14,7 +14,7 @@ namespace A4_DataManagement
         [STAThread]
         static void Main()
         {
-            using (var game = new CoffeeShopSimulation())
+            using (var game = new Main())
                 game.Run();
         }
     }

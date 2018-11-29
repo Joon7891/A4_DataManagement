@@ -40,20 +40,24 @@ namespace A4_DataManagement
         protected double serviceTime;
 
         // Graphics related-data
+        private Direction currentDirection = Direction.Left;
         protected Texture2D[,] directionalImages;
-        private Texture2D currentImage;
+        protected Texture2D currentImage;
+        private int frameCounter = 1;
+        private int imageNumber = 0;
 
 
 
         private Rectangle rectangle;
-        private Rectangle targetRectangle = new Rectangle();
+        private Rectangle targetRectangle;
         private double nonRoundedX;
         private double nonRoundedY;
-        private Vector2 velocity = new Vector2();
+        private Vector2 velocity;
 
         public Customer()
         {
-            currentImage = directionalImages[0, 0];
+            //currentImage = directionalImages[0, 0];
+            rectangle = new Rectangle(0, 0, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
         }
 
         /// <summary>
@@ -64,7 +68,9 @@ namespace A4_DataManagement
         {
             // Increasing wait time
             waitTime += gameTime.ElapsedGameTime.Milliseconds / 1000.0;
-            
+
+            // Updating customer image
+            currentImage = directionalImages[(int)currentDirection, imageNumber];
 
             // Moving customer if they are not at their target location
             if (IsMoving)
@@ -93,28 +99,24 @@ namespace A4_DataManagement
             serviceTime -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
         }
 
+
+        // FIX
+        // MOVEMENT
+        // BEHAVIORS
+        // AS
+        // MANHATTEN DISTANCE
+
         /// <summary>
         /// Subprogram to move the customer to its target location
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timinig value</param>
         private void Move(GameTime gameTime)
-        {          
-            // Moving customer
-            nonRoundedX += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
-            nonRoundedY += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
-            rectangle.X = (int)(nonRoundedX + 0.5);
-            rectangle.Y = (int)(nonRoundedY + 0.5);
-
-            // Adjusting x-velocity if it will overshoot
-            if (Math.Abs(rectangle.X - targetRectangle.X) * 60 < Math.Abs(velocity.X))
+        {
+            // Updating image frame related data
+            frameCounter = (frameCounter + 1) % 15;
+            if (frameCounter == 0)
             {
-                velocity.X = (targetRectangle.X - rectangle.X) * 60;
-            }
-
-            // Adjusting y-velocity if will overshoot
-            if (Math.Abs(rectangle.Y - targetRectangle.Y) * 60 < Math.Abs(velocity.Y))
-            {
-                velocity.Y = (targetRectangle.Y - rectangle.Y) * 60;
+                imageNumber = (imageNumber + 1) % 3;
             }
         }
 

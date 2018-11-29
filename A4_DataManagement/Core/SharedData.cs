@@ -31,6 +31,16 @@ namespace A4_DataManagement
         public static Random RNG { get; private set; }
 
         /// <summary>
+        /// The width of the customer
+        /// </summary>
+        public const int CUSTOMER_WIDTH = 52;
+
+        /// <summary>
+        /// The height of the customer
+        /// </summary>
+        public const int CUSTOMER_HEIGHT = 72;
+
+        /// <summary>
         /// Static constructor to initialize SharedData class data
         /// </summary>
         static SharedData()

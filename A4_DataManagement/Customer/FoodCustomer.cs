@@ -35,7 +35,7 @@ namespace A4_DataManagement
             {
                 for (int i = 0; i < directionalImages.GetLength(1); ++i)
                 {
-                    directionalImages[(int)direction, i] = CoffeeShopSimulation.Content.Load<Texture2D>
+                    directionalImages[(int)direction, i] = Main.Content.Load<Texture2D>
                         ($"Images/Sprites/Customers/FoodCustomer/foodCustomer{direction.ToString()}{i}");
                 }
             }

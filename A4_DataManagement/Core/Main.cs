@@ -16,7 +16,7 @@ namespace A4_DataManagement
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class CoffeeShopSimulation : Game
+    public class Main : Game
     {
         // Instances of graphics classes for in-game graphics
         private GraphicsDeviceManager graphics;
@@ -37,13 +37,12 @@ namespace A4_DataManagement
         /// </summary>
         public static KeyboardState OldKeyboard { get; private set; }
 
-        // Customer related-data
-        private ServiceLine cashierCustomers = new ServiceLine();
-        private LineupQueue lineupCustomers = new LineupQueue();
-        private const int ADD_TIME = 3;
-        private float addTimer = 0;
+        // Instance of the coffee shop
+        private CoffeeShop coffeeShop = new CoffeeShop();
 
-        public CoffeeShopSimulation()
+        private BothCustomer test;
+
+        public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content = base.Content;
@@ -77,6 +76,8 @@ namespace A4_DataManagement
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            test = new BothCustomer();
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -100,31 +101,8 @@ namespace A4_DataManagement
             OldKeyboard = NewKeyboard;
             NewKeyboard = Keyboard.GetState();
 
-            // Updating customers in line up and cashier
-            lineupCustomers.Update(gameTime);
-            cashierCustomers.Update(gameTime);
-
-            Console.WriteLine($"{cashierCustomers.TotalCount} - {4 - cashierCustomers.SpotsAvailable} - {cashierCustomers.SpotsAvailable} - {lineupCustomers.InsideCustomersCount} - {lineupCustomers.Count}");
-
-            // Adding a customer to the service line every 3 seconds
-            addTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            if (addTimer >= ADD_TIME)
-            {
-                lineupCustomers.Enqueue(GenerateRandomCustomer());
-                addTimer -= ADD_TIME;
-            }
-            
-            // Moving customer from lineup to cashier if possible
-            if (cashierCustomers.SpotsAvailable > 0 && lineupCustomers.Count > 0)
-            {
-                cashierCustomers.Add(lineupCustomers.Dequeue());
-            }
-
-            // Moving a customer from the outside of the shop to the inside, if possible
-            if (cashierCustomers.TotalCount + lineupCustomers.InsideCustomersCount < 20)
-            {
-                lineupCustomers.MoveInside();
-            }
+            // Updating coffee shop
+            coffeeShop.Update(gameTime);
 
             // Updating game
             base.Update(gameTime);
@@ -139,7 +117,8 @@ namespace A4_DataManagement
             // Beginning spriteBatch
             spriteBatch.Begin();
 
-
+            // Drawing coffee shop
+            coffeeShop.Draw(spriteBatch);            
 
             // Ending spriteBatch
             spriteBatch.End();

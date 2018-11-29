@@ -45,13 +45,14 @@
     <Compile Include="Customer\CoffeeCustomer.cs" />
     <Compile Include="Customer\Direction.cs" />
     <Compile Include="Customer\FoodCustomer.cs" />
-    <Compile Include="Store\ServiceLine.cs" />
+    <Compile Include="CoffeeShop\CashierLine.cs" />
     <Compile Include="Customer\Customer.cs" />
-    <Compile Include="Core\CoffeeShopSimulation.cs" />
-    <Compile Include="Store\LineupQueue.cs" />
+    <Compile Include="Core\Main.cs" />
+    <Compile Include="CoffeeShop\LineupQueue.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\SharedData.cs" />
+    <Compile Include="CoffeeShop\CoffeeShop.cs" />
     <Compile Include="Utility\KeyboardHelper.cs" />
     <Compile Include="Utility\SortHelper.cs" />
   </ItemGroup>
