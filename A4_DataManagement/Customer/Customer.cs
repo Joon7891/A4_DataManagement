@@ -99,13 +99,6 @@ namespace A4_DataManagement
             serviceTime -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
         }
 
-
-        // FIX
-        // MOVEMENT
-        // BEHAVIORS
-        // AS
-        // MANHATTEN DISTANCE
-
         /// <summary>
         /// Subprogram to move the customer to its target location
         /// </summary>
@@ -117,6 +110,33 @@ namespace A4_DataManagement
             if (frameCounter == 0)
             {
                 imageNumber = (imageNumber + 1) % 3;
+            }
+
+            // Moving customer in appropraite direction
+            if (currentDirection == Direction.Left || currentDirection == Direction.Right)
+            {
+                // Adjusting x-velocity and flipping direction if x-movement will overshoot
+                if (Math.Abs(rectangle.X - targetRectangle.X) * 60 < Math.Abs(velocity.X))
+                {
+                    velocity.X = (targetRectangle.X - rectangle.X) * 60;
+                    currentDirection = velocity.Y < 0 ? Direction.Up : Direction.Down;
+                }
+
+                // Moving customer rectangle
+                nonRoundedX += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+                rectangle.X = (int)(nonRoundedX + 0.5);
+            }
+            else
+            {
+                // Adjusting y-velocity if y-movement will overshoot
+                if (Math.Abs(rectangle.Y - targetRectangle.Y) * 60 < Math.Abs(velocity.Y))
+                {
+                    velocity.Y = (targetRectangle.Y - rectangle.Y) * 60;
+                }
+
+                // Moving customer rectangle
+                nonRoundedY += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+                rectangle.Y = (int)(nonRoundedY + 0.5);
             }
         }
 
@@ -131,10 +151,11 @@ namespace A4_DataManagement
             velocity.X = (targetRectangle.X - rectangle.X) / movementTime;
             velocity.Y = (targetRectangle.Y - rectangle.Y) / movementTime;
 
-            // Setting up various to ensure proper correlation of movement
+            // Setting various variables to ensure proper correlation of movement
             nonRoundedX = rectangle.X;
             nonRoundedY = rectangle.Y;
             this.targetRectangle = targetRectangle;
+            currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
         }
     }
 }
