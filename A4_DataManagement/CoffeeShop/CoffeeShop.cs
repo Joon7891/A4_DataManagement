@@ -17,8 +17,9 @@ namespace A4_DataManagement
 {
     public sealed class CoffeeShop
     {
-        private CashierLine cashierLine;
-        private LineupQueue customerLine;
+        private CashierLine cashierLine = new CashierLine();
+        private LineupQueue ineisdeLine;
+        private LineupQueue outsideLine;
 
         /// <summary>
         /// Update subprogram for CoffeeShop object

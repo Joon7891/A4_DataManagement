@@ -101,8 +101,10 @@ namespace A4_DataManagement
             OldKeyboard = NewKeyboard;
             NewKeyboard = Keyboard.GetState();
 
+            test.Update(gameTime);
+
             // Updating coffee shop
-            coffeeShop.Update(gameTime);
+            //coffeeShop.Update(gameTime);
 
             // Updating game
             base.Update(gameTime);
@@ -114,47 +116,21 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             // Beginning spriteBatch
             spriteBatch.Begin();
 
+            test.Draw(spriteBatch);
+
             // Drawing coffee shop
-            coffeeShop.Draw(spriteBatch);            
+            //coffeeShop.Draw(spriteBatch);            
 
             // Ending spriteBatch
             spriteBatch.End();
 
             // Drawing game
             base.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// Subprogram to generate a random customer
-        /// </summary>
-        /// <returns></returns>
-        private Customer GenerateRandomCustomer()
-        {
-            // Caching customer type and customer instance
-            int customerType = SharedData.RNG.Next(0, 3);
-            Customer customer = null;
-
-            // Constructing appropriate customer given customer type
-            switch(customerType)
-            {
-                case 0:
-                    customer = new CoffeeCustomer();
-                    break;
-
-                case 1:
-                    customer = new FoodCustomer();
-                    break;
-
-                case 2:
-                    customer = new BothCustomer();
-                    break;
-            }
-
-            // Returning randomly generate customer
-            return customer;
         }
     }
 }

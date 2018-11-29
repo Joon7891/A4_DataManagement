@@ -18,6 +18,9 @@ namespace A4_DataManagement
 {
     public sealed class LineupQueue
     {
-        
+        public LineupQueue(int size, Rectangle[] locationRectangles)
+        {
+
+        }
     }
 }

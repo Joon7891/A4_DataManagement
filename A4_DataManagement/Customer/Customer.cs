@@ -56,7 +56,8 @@ namespace A4_DataManagement
         public Customer()
         {
             //currentImage = directionalImages[0, 0];
-            rectangle = new Rectangle(0, 0, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            rectangle = new Rectangle(700, 500, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+            SetMovement(new Rectangle(100, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT), 3.0f);
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace A4_DataManagement
         private void Move(GameTime gameTime)
         {
             // Updating image frame related data
-            frameCounter = (frameCounter + 1) % 15;
+            frameCounter = (frameCounter + 1) % 10;
             if (frameCounter == 0)
             {
                 imageNumber = (imageNumber + 1) % 3;
@@ -146,6 +147,13 @@ namespace A4_DataManagement
         /// <param name="movementTime">The time in which Customer is to move</param>
         public void SetMovement(Rectangle targetRectangle, float movementTime)
         {
+            // Caching various distance and time related variables
+            int xDistance = targetRectangle.X - rectangle.X;
+            int yDistance = targetRectangle.Y - rectangle.Y;
+            int manhattenDistance = xDistance = yDistance;
+            float xTime = movementTime * (xDistance / (float) manhattenDistance);
+            float yTime = movementTime * (yDistance / (float) manhattenDistance);
+
             // Setting up velocity vector
             velocity.X = (targetRectangle.X - rectangle.X) / movementTime;
             velocity.Y = (targetRectangle.Y - rectangle.Y) / movementTime;
