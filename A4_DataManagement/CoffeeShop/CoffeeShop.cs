@@ -3,6 +3,7 @@
 // Project Name: A4_DataManagement
 // Creation Date: 11/28/2018
 // Modified Date: 11/28/2018
+// Description: Class to hold CoffeeShop object; inherits from IEntity interface
 
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public sealed class CoffeeShop
+    public sealed class CoffeeShop : IEntity
     {
         private CashierLine cashierLine = new CashierLine();
-        private LineupQueue ineisdeLine;
-        private LineupQueue outsideLine;
+        private InsideLineQueue insideLine = new InsideLineQueue();
+        private OutsideLineQueue outsideLine = new OutsideLineQueue();
 
         /// <summary>
         /// Update subprogram for CoffeeShop object
@@ -27,8 +28,10 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Update(GameTime gameTime)
         {
-            // Updating both lines
+            // Updating all lines
             cashierLine.Update(gameTime);
+            insideLine.Update(gameTime);
+            outsideLine.Update(gameTime);
         }
 
         /// <summary>
@@ -37,8 +40,10 @@ namespace A4_DataManagement
         /// <param name="spriteBatch">SpriteBatch to draw sprites</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Drawing both lines
+            // Drawing all lines
             cashierLine.Draw(spriteBatch);
+            insideLine.Draw(spriteBatch);
+            outsideLine.Draw(spriteBatch);
         }
     }
 }

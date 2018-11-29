@@ -3,7 +3,7 @@
 // Project Name: A4_DataManagement
 // Creation Date: 11/27/2018
 // Modified Date: 12/04/2018
-// Description: Class to hold ServiceLine object
+// Description: Class to hold ServiceLine object; inherits from IEntity object
 
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public sealed class CashierLine
+    public sealed class CashierLine : IEntity
     {
         // Customer related data
         private const int NUM_CASHIER = 4;

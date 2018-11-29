@@ -3,7 +3,7 @@
 // Project Name: A4_DataManagement
 // Creation Date: 11/26/2018
 // Modified Date: 12/10/2018
-// Description: Class to hold Customer object
+// Description: Class to hold Customer object; inherits from IEntity interface
 
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public abstract class Customer
+    public abstract class Customer : IEntity
     {
         /// <summary>
         /// The name of the customer

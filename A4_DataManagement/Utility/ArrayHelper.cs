@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace A4_DataManagement
 {
     public static class ArrayHelper<T>
-    {
+    {        
         /// <summary>
         /// Subprogram to combine an array
         /// </summary>
