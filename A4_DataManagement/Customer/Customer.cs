@@ -46,8 +46,7 @@ namespace A4_DataManagement
         private int frameCounter = 1;
         private int imageNumber = 0;
 
-
-
+        // Movement related variables
         private Rectangle rectangle;
         private Rectangle targetRectangle;
         private double nonRoundedX;
