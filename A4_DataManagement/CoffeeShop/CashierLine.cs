@@ -85,6 +85,13 @@ namespace A4_DataManagement
             for (int i = 0; i < exitingCustomers.Count; ++i)
             {
                 exitingCustomers[i].Update(gameTime);
+
+                // Removing exiting customer if they are off screen
+                if (!exitingCustomers[i].IsMoving)
+                {
+                    exitingCustomers.RemoveAt(i);
+                    --i;
+                }
             }
         }
 

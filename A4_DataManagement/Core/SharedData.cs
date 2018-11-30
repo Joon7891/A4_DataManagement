@@ -40,6 +40,8 @@ namespace A4_DataManagement
         /// </summary>
         public const int CUSTOMER_HEIGHT = 72;
 
+        public const int VERTICAL_BUFFER = 150;
+
         /// <summary>
         /// Static constructor to initialize SharedData class data
         /// </summary>

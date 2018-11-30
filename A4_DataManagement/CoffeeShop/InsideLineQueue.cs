@@ -18,12 +18,9 @@ namespace A4_DataManagement
 {
     public sealed class InsideLineQueue : IQueue<Customer>, IEntity
     {
-        // Array of the customers in the inside line
+        // Customer-related variables
         private const int MAX_SIZE = 16;
         private Customer[] customers = new Customer[MAX_SIZE];
-
-        // Customer rectangle realted variabes
-        private const int VERTICAL_BUFFER = 150;
         private static Rectangle[] customerRectangles = new Rectangle[MAX_SIZE];
 
         /// <summary>
@@ -57,27 +54,24 @@ namespace A4_DataManagement
         {
             if (index == 0)
             {
-                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2, VERTICAL_BUFFER, 
+                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER, 
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
-            else if (index < 5)
+            else if (index < 8)
             {
-                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 1),
-                    VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4),
+                    SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
-            else if (index == 5)
+            else if (index == 8)
             {
-                return new Rectangle(SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
+                return new Rectangle(SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
-            else if (index < 13)
+            else
             {
-                //return new Rectangle(SharedData.SCREEN_HEIGHT - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 5), VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_WIDTH,
-                //    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Rectangle(SharedData.SCREEN_HEIGHT - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 10), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
+                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
-
-            return new Rectangle();
-              
         }
 
         /// <summary>
@@ -95,7 +89,7 @@ namespace A4_DataManagement
         }
 
         /// <summary>
-        /// Subprogram to remove the customer in front of the inside line queue
+        /// Subprogram to remove and return the customer in front of the inside line queue
         /// </summary>
         /// <returns></returns>
         public Customer Dequeue()
@@ -115,6 +109,22 @@ namespace A4_DataManagement
 
             // Returning customer in front of the line
             return frontCustomer;
+        }
+
+        /// <summary>
+        /// Subprogram to return the customer in front of the inside line queue
+        /// </summary>
+        /// <returns>The customer in front of the inside line</returns>
+        public Customer Peek()
+        {
+            // Returning customer in front of the line if one exists
+            if (Size > 0)
+            {
+                return customers[0];
+            }
+
+            // Otherwise returning null
+            return null;
         }
 
         /// <summary>

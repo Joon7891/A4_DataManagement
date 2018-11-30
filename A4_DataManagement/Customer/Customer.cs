@@ -52,12 +52,15 @@ namespace A4_DataManagement
         private double nonRoundedX;
         private double nonRoundedY;
         private Vector2 velocity;
-
+        
+        /// <summary>
+        /// Constructor for Customer object
+        /// </summary>
         public Customer()
         {
-            //currentImage = directionalImages[0, 0];
-            rectangle = new Rectangle(700, 500, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-            SetMovement(new Rectangle(100, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT));
+            // Constructing initial customer rectangle
+            rectangle = new Rectangle(SharedData.SCREEN_WIDTH, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT,
+                SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace A4_DataManagement
             waitTime += gameTime.ElapsedGameTime.Milliseconds / 1000.0;
 
             // Updating customer image
-            currentImage = directionalImages[(int)currentDirection, imageNumber];
+            currentImage = directionalImages[(int)currentDirection, IsMoving ? imageNumber : 1];
 
             // Moving customer if they are not at their target location
             if (IsMoving)

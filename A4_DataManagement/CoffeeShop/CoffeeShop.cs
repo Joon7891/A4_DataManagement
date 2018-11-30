@@ -46,13 +46,13 @@ namespace A4_DataManagement
             outsideLine.Update(gameTime);
 
             // Moving outside customer inside if possible
-            if (outsideLine.Size > 0 && cashierLine.Count + insideLine.Size < 20)
+            if (outsideLine.Size > 0 && !outsideLine.Peek().IsMoving &&  cashierLine.Count + insideLine.Size < 20)
             {
                 insideLine.Enqueue(outsideLine.Dequeue());
             }
 
             // Moving line customer to cashier line if possible
-            if (insideLine.Size > 0 && cashierLine.CashiersAvailable > 0)
+            if (insideLine.Size > 0 && !insideLine.Peek().IsMoving && cashierLine.CashiersAvailable > 0)
             {
                 cashierLine.AddCustomer(insideLine.Dequeue());
             }

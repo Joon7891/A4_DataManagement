@@ -36,5 +36,11 @@ namespace A4_DataManagement
         /// </summary>
         /// <returns>The item in front of the queue</returns>
         T Dequeue();
+
+        /// <summary>
+        /// Subprogram to return the item in front of a queue
+        /// </summary>
+        /// <returns>The item in front of the queue</returns>
+        T Peek();
     }
 }
