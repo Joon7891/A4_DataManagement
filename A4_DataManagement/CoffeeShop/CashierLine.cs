@@ -25,7 +25,7 @@ namespace A4_DataManagement
         private List<Customer> exitingCustomers = new List<Customer>();
 
         // Various rectangles that customers are to be in
-        private static Rectangle exitRectangle;
+        private static Rectangle[] exitRectangles = new Rectangle[NUM_CASHIER];
         private static Rectangle[] cashierRectangles = new Rectangle[NUM_CASHIER];
 
         /// <summary>
@@ -44,10 +44,10 @@ namespace A4_DataManagement
         static CashierLine()
         {
             // Setting up customer rectangles
-            exitRectangle = new Rectangle(-80, 200, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             for (int i = 0; i < NUM_CASHIER; ++i)
             {
-                cashierRectangles[i] = new Rectangle(74 + 200 * i, 50, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                cashierRectangles[i] = new Rectangle(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                exitRectangles[i] = new Rectangle(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 200 * i, -SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
         }
 
@@ -74,7 +74,7 @@ namespace A4_DataManagement
                     // Making customer exit if they have been servied
                     if (cashierCustomers[i].Serviced)
                     {
-                        cashierCustomers[i].SetMovement(exitRectangle);
+                        cashierCustomers[i].SetMovement(exitRectangles[i]);
                         exitingCustomers.Add(cashierCustomers[i]);
                         cashierCustomers[i] = null;
                     }
