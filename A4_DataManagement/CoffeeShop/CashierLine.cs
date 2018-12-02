@@ -46,8 +46,10 @@ namespace A4_DataManagement
             // Setting up customer rectangles
             for (int i = 0; i < NUM_CASHIER; ++i)
             {
-                cashierRectangles[i] = new Rectangle(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-                exitRectangles[i] = new Rectangle(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 200 * i, -SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                cashierRectangles[i] = new Rectangle(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT, 
+                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                exitRectangles[i] = new Rectangle(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 200 * i, 
+                    -SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
         }
 

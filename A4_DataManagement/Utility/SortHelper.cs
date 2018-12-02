@@ -21,7 +21,7 @@ namespace A4_DataManagement
         /// <param name="a">The first element</param>
         /// <param name="b">The second element</param>
         /// <returns>Whether the first element should take priority over the second element</returns>
-        public delegate bool Comparer(T a, T b);
+        public delegate bool Comparator(T a, T b);
 
         /// <summary>
         /// Subprogram to sort an array via MergeSort
@@ -29,7 +29,7 @@ namespace A4_DataManagement
         /// <param name="array">The array to be sorted</param>
         /// <param name="comparer">The comparer to determine which elements take priority</param>
         /// <returns>The sorted array</returns>
-        public static T[] MergeSort(T[] array, Comparer comparer)
+        public static T[] MergeSort(T[] array, Comparator comparator)
         {
             // The first and second arrays
             T[] firstArray;
@@ -58,7 +58,7 @@ namespace A4_DataManagement
             }
 
             // Returning recursive case of merge sort
-            return Merge(MergeSort(firstArray, comparer), MergeSort(secondArray, comparer), comparer);
+            return Merge(MergeSort(firstArray, comparator), MergeSort(secondArray, comparator), comparator);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace A4_DataManagement
         /// <param name="secondArray">The second array to be merged</param>
         /// <param name="comparer">The comparator to determine which element takes priority</param>
         /// <returns></returns>
-        private static T[] Merge(T[] firstArray, T[] secondArray, Comparer comparer)
+        private static T[] Merge(T[] firstArray, T[] secondArray, Comparator comparator)
         {
             // Initializing merged array and indexers
             T[] mergedArray = new T[firstArray.Length + secondArray.Length];
@@ -89,8 +89,8 @@ namespace A4_DataManagement
                 }
                 else
                 {
-                    // Adding appropriate element from two arrays via comparer
-                    if (comparer(firstArray[firstIndex], secondArray[secondIndex]))
+                    // Adding appropriate element from two arrays via comparator
+                    if (comparator(firstArray[firstIndex], secondArray[secondIndex]))
                     {
                         mergedArray[i] = firstArray[firstIndex++];
                     }
