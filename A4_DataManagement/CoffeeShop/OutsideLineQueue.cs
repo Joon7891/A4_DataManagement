@@ -99,6 +99,16 @@ namespace A4_DataManagement
         }
 
         /// <summary>
+        /// Subprogram to 'convert' the OutsideLineQueue into an array
+        /// </summary>
+        /// <returns>An array containing the outside line queue customers</returns>
+        public Customer[] ToArray()
+        {
+            // Returning an array of customers
+            return customers.ToArray();
+        }
+
+        /// <summary>
         /// Update subprogram for OutsideLineQueue object
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values</param>

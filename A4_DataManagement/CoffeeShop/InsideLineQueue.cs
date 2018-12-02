@@ -128,6 +128,16 @@ namespace A4_DataManagement
         }
 
         /// <summary>
+        /// Subprogram to 'convert' the InsideLineQueue into an array
+        /// </summary>
+        /// <returns>An array containing the inside line queue customers</returns>
+        public Customer[] ToArray()
+        {
+            // Returning an array of non-null customers
+            return customers.Where(customer => customer != null).ToArray();
+        }
+
+        /// <summary>
         /// Update subprogram for InsideLineQueue object
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values</param>

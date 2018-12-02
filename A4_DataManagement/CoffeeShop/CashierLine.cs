@@ -39,6 +39,29 @@ namespace A4_DataManagement
         public int Count => NUM_CASHIER - CashiersAvailable + exitingCustomers.Count;
 
         /// <summary>
+        /// The total number of people served
+        /// </summary>
+        public int TotalServed { get; private set; }
+
+        /// <summary>
+        /// The maximum wait time for a customer
+        /// </summary>
+        public double MaxWaitTime { get; private set; }
+
+        /// <summary>
+        /// The minimum wait time for a customer
+        /// </summary>
+        public double MinWaitTime { get; private set; }
+
+        /// <summary>
+        /// The average wait time for a customer, rounded to two deciminal places
+        /// </summary>
+        public double AverageWaitTime => Math.Round(averageWaitTime, 2);
+
+        // Average wait time for a customer
+        private double averageWaitTime;
+
+        /// <summary>
         /// Static constructor to set up various CashierLine object properties
         /// </summary>
         static CashierLine()
@@ -54,11 +77,21 @@ namespace A4_DataManagement
         }
 
         /// <summary>
+        /// Subprogram to 'convert' CashierLine into an array
+        /// </summary>
+        /// <returns>An array containing the cashier line customers</returns>
+        public Customer[] ToArray()
+        {
+            // Returning the combination of customer with a cashier and those exiting
+            return ArrayHelper<Customer>.Combine(cashierCustomers.Where(customer => customer != null).ToArray(), exitingCustomers.ToArray());
+        }
+
+        /// <summary>
         /// Update subprogram for CashierLine object
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Update(GameTime gameTime)
-        {
+        {            
             // Iterating through each cashier customer
             for (int i = 0; i < NUM_CASHIER; ++i)
             {
@@ -91,6 +124,22 @@ namespace A4_DataManagement
                 // Removing exiting customer if they are off screen
                 if (!exitingCustomers[i].IsMoving)
                 {
+                    // Updating max wait time if customer's wait time is a new max
+                    if (exitingCustomers[i].WaitTime > MaxWaitTime)
+                    {
+                        MaxWaitTime = exitingCustomers[i].WaitTime;
+                    }
+
+                    // Updating min wait time if customer's wait time is a new min
+                    if (exitingCustomers[i].WaitTime < MinWaitTime || MinWaitTime == default(int))
+                    {
+                        MinWaitTime = exitingCustomers[i].WaitTime;
+                    }
+
+                    // Updating avergae wait time
+                    averageWaitTime = (exitingCustomers[i].WaitTime + averageWaitTime * TotalServed++) / TotalServed;
+
+                    // Removing customer
                     exitingCustomers.RemoveAt(i);
                     --i;
                 }

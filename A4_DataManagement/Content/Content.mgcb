@@ -445,3 +445,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Sprites/Customers/FoodCustomer/foodCustomerUp2.png
 
+#begin Audio/SoundEffects/serveSoundEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/SoundEffects/serveSoundEffect.mp3
+

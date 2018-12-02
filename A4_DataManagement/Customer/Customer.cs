@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace A4_DataManagement
 {
@@ -35,9 +35,10 @@ namespace A4_DataManagement
         /// </summary>
         public bool IsMoving => !(rectangle.X == targetRectangle.X && rectangle.Y == targetRectangle.Y);
 
-        // Time related variables
+        // Time and service related variables
         private double waitTime = 0;
         protected double serviceTime;
+        private static SoundEffect serveSoundEffect;
 
         // Graphics related-data
         private Direction currentDirection = Direction.Left;
@@ -53,6 +54,15 @@ namespace A4_DataManagement
         private double nonRoundedY;
         private Vector2 velocity;
         
+        /// <summary>
+        /// Static constructor to set up Customer class
+        /// </summary>
+        static Customer()
+        {
+            // Loading sound effects
+            serveSoundEffect = Main.Content.Load<SoundEffect>("Audio/SoundEffects/serveSoundEffect");
+        }
+
         /// <summary>
         /// Constructor for Customer object
         /// </summary>
@@ -100,6 +110,12 @@ namespace A4_DataManagement
         {
             // Decreasing service time
             serviceTime -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+
+            // Playing served sound effect if fully served
+            if (serviceTime <= 0)
+            {
+                serveSoundEffect.CreateInstance().Play();
+            }
         }
 
         /// <summary>

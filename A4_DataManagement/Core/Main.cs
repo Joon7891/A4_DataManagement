@@ -90,7 +90,7 @@ namespace A4_DataManagement
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {
+        {            
             // Updating keyboard states
             OldKeyboard = NewKeyboard;
             NewKeyboard = Keyboard.GetState();

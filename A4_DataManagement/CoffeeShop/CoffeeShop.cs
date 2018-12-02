@@ -18,6 +18,8 @@ namespace A4_DataManagement
 {
     public sealed class CoffeeShop : IEntity
     {
+        // All customer related variables/objects
+        private Customer[] customersByTime;
         private CashierLine cashierLine = new CashierLine();
         private InsideLineQueue insideLine = new InsideLineQueue();
         private OutsideLineQueue outsideLine = new OutsideLineQueue();
@@ -56,6 +58,10 @@ namespace A4_DataManagement
             {
                 cashierLine.AddCustomer(insideLine.Dequeue());
             }
+
+            // Updating and resorting all customers by wait time
+            customersByTime = SortHelper<Customer>.MergeSort(ArrayHelper<Customer>.Combine(
+                cashierLine.ToArray(), insideLine.ToArray(), outsideLine.ToArray()), (a, b) => a.WaitTime >= b.WaitTime);
         }
 
         /// <summary>
@@ -71,10 +77,20 @@ namespace A4_DataManagement
         }
 
         /// <summary>
+        /// Subprogram to obtain the 5 customers with the longest wait times
+        /// </summary>
+        /// <returns>An array holding the top 5 (or less) customers by wait times</returns>
+        public Customer[] GetTopFiveWaitTimes()
+        {
+            // Returning the subarray consisting of the top 5 (or less) customers by wait times
+            return ArrayHelper<Customer>.GetSubarray(customersByTime, 0, Math.Min(0, customersByTime.Length));
+        }
+
+        /// <summary>
         /// Subprogram to generate a random customer
         /// </summary>
         /// <returns>The random customer</returns>
-        public Customer RandomCustomer()
+        private Customer RandomCustomer()
         {
             // Variables related to random customer generation
             int customerType = SharedData.RNG.Next(0, 3);

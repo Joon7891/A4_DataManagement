@@ -16,7 +16,7 @@ namespace A4_DataManagement
     public static class ArrayHelper<T>
     {        
         /// <summary>
-        /// Subprogram to combine an array
+        /// Subprogram to combine a number of arrays
         /// </summary>
         /// <param name="arrays">The arrays to be combined</param>
         /// <returns>The combined array</returns>
@@ -42,6 +42,26 @@ namespace A4_DataManagement
 
             // Returning the combined array
             return combinedArray;
+        }
+
+        /// <summary>
+        /// Subprogram to return the subarray of a given array
+        /// </summary>
+        /// <param name="array">The array to get the subarray from</param>
+        /// <returns>The desired subarray</returns>
+        public static T[] GetSubarray(T[] array, int startIndex, int length)
+        {
+            // Constructing subarray with given length
+            T[] subarray = new T[length];
+
+            // Copying array elements into subarray
+            for (int i = 0; i < length; ++i)
+            {
+                subarray[i] = array[startIndex + i];
+            }
+
+            // Returning subarray
+            return subarray;
         }
     }
 }
