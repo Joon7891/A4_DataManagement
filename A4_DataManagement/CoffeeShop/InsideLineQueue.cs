@@ -103,6 +103,7 @@ namespace A4_DataManagement
                 customers[i].SetMovement(customerRectangles[i - 1]);
                 customers[i - 1] = customers[i];
             }
+            customers[Size - 1] = null;
 
             // Decrementing size
             --Size;
