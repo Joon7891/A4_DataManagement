@@ -37,6 +37,14 @@ namespace A4_DataManagement
         /// </summary>
         public static KeyboardState OldKeyboard { get; private set; }
 
+        // Variables related to drawing the background for the leaderboard
+        private Texture2D leaderboardBackgroundImage;
+        private Rectangle leaderboardBackgroundRectangle;
+
+        // SpriteFont objects to hold various fonts
+        private SpriteFont headerFont;
+        private SpriteFont informationFont;
+
         // Instance of the coffee shop
         private CoffeeShop coffeeShop = new CoffeeShop();
 
@@ -73,6 +81,14 @@ namespace A4_DataManagement
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Setting up leaderboard background
+            leaderboardBackgroundImage = Content.Load<Texture2D>("Images/Backgrounds/woodBackgroundImage");
+            leaderboardBackgroundRectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT);
+
+            // Importing various fonts
+            headerFont = Content.Load<SpriteFont>("Fonts/HeaderFont");
+            informationFont = Content.Load<SpriteFont>("Fonts/InformationFont");
         }
 
         /// <summary>
@@ -114,7 +130,21 @@ namespace A4_DataManagement
             spriteBatch.Begin();
 
             // Drawing coffee shop
-            coffeeShop.Draw(spriteBatch);            
+            coffeeShop.Draw(spriteBatch);
+
+            // Drawing leaderboard background
+            spriteBatch.Draw(leaderboardBackgroundImage, leaderboardBackgroundRectangle, Color.White);
+            Console.WriteLine(leaderboardBackgroundRectangle);
+
+            // Drawing leaderboard information
+            Customer[] customers = coffeeShop.TopFiveCustomersByWaitTime;
+            for (int i = 0; i < customers.Length; ++i)
+            {
+                spriteBatch.DrawString(informationFont, customers[i].Name, new Vector2(850, 50 * i), Color.White);
+                spriteBatch.DrawString(informationFont, $"{customers[i].WaitTime}s", new Vector2(950, 50 * i), Color.White);
+            }
+
+            //spriteBatch.DrawString(headerFont, "Leaderboard", new Vector2(50, 50), Color.White);
 
             // Ending spriteBatch
             spriteBatch.End();

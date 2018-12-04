@@ -54,22 +54,22 @@ namespace A4_DataManagement
         {
             if (index == 0)
             {
-                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER, 
+                return new Rectangle((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER, 
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
             else if (index < 8)
             {
-                return new Rectangle((SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4),
+                return new Rectangle((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4),
                     SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
             else if (index == 8)
             {
-                return new Rectangle(SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
+                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
             else
             {
-                return new Rectangle(SharedData.SCREEN_HEIGHT - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 10), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
+                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 10), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
         }

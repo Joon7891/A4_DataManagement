@@ -23,7 +23,17 @@ namespace A4_DataManagement
         /// <summary>
         /// The width of the screen
         /// </summary>
-        public const int SCREEN_WIDTH = 800;
+        public const int SCREEN_WIDTH = 1200;
+        
+        /// <summary>
+        /// The height of the coffee shop
+        /// </summary>
+        public const int COFFEE_SHOP_HEIGHT = 600;
+
+        /// <summary>
+        /// The width of the coffee shop
+        /// </summary>
+        public const int COFFEE_SHOP_WIDTH = 800;
 
         /// <summary>
         /// Random number generator

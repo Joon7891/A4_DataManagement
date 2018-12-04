@@ -18,8 +18,18 @@ namespace A4_DataManagement
 {
     public sealed class CoffeeShop : IEntity
     {
+        /// <summary>
+        /// The customers in the CoffeeShop sorted by wait time
+        /// </summary>
+        public Customer[] CustomersByWaitTime { get; private set; }
+
+        /// <summary>
+        /// The top five customers in the CoffeeShop sorted by wait time
+        /// </summary>
+        public Customer[] TopFiveCustomersByWaitTime => ArrayHelper<Customer>.GetSubarray(
+            CustomersByWaitTime, 0, Math.Min(5, CustomersByWaitTime.Length));
+
         // All customer related variables/objects
-        private Customer[] customersByTime;
         private CashierLine cashierLine = new CashierLine();
         private InsideLineQueue insideLine = new InsideLineQueue();
         private OutsideLineQueue outsideLine = new OutsideLineQueue();
@@ -59,8 +69,8 @@ namespace A4_DataManagement
                 cashierLine.AddCustomer(insideLine.Dequeue());
             }
 
-            // Updating and resorting all customers by wait time
-            customersByTime = SortHelper<Customer>.MergeSort(ArrayHelper<Customer>.Combine(
+            // Updating and sorting all customers by wait time
+            CustomersByWaitTime = SortHelper<Customer>.MergeSort(ArrayHelper<Customer>.Combine(
                 cashierLine.ToArray(), insideLine.ToArray(), outsideLine.ToArray()), (a, b) => a.WaitTime >= b.WaitTime);
         }
 
@@ -74,16 +84,6 @@ namespace A4_DataManagement
             cashierLine.Draw(spriteBatch);
             insideLine.Draw(spriteBatch);
             outsideLine.Draw(spriteBatch);
-        }
-
-        /// <summary>
-        /// Subprogram to obtain the 5 customers with the longest wait times
-        /// </summary>
-        /// <returns>An array holding the top 5 (or less) customers by wait times</returns>
-        public Customer[] GetTopFiveWaitTimes()
-        {
-            // Returning the subarray consisting of the top 5 (or less) customers by wait times
-            return ArrayHelper<Customer>.GetSubarray(customersByTime, 0, Math.Min(0, customersByTime.Length));
         }
 
         /// <summary>
