@@ -54,12 +54,9 @@ namespace A4_DataManagement
         public double MinWaitTime { get; private set; }
 
         /// <summary>
-        /// The average wait time for a customer, rounded to two deciminal places
+        /// The average wait time for a customer
         /// </summary>
-        public double AverageWaitTime => Math.Round(averageWaitTime, 2);
-
-        // Average wait time for a customer
-        private double averageWaitTime;
+        public double AverageWaitTime { get; private set; }
 
         /// <summary>
         /// Static constructor to set up various CashierLine object properties
@@ -137,7 +134,7 @@ namespace A4_DataManagement
                     }
 
                     // Updating avergae wait time
-                    averageWaitTime = (exitingCustomers[i].WaitTime + averageWaitTime * TotalServed++) / TotalServed;
+                    AverageWaitTime = (exitingCustomers[i].WaitTime + AverageWaitTime * TotalServed++) / TotalServed;
 
                     // Removing customer
                     exitingCustomers.RemoveAt(i);

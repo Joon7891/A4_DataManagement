@@ -134,9 +134,17 @@ namespace A4_DataManagement
 
             // Drawing leaderboard background
             spriteBatch.Draw(leaderboardBackgroundImage, leaderboardBackgroundRectangle, Color.White);
-            Console.WriteLine(leaderboardBackgroundRectangle);
 
             // Drawing leaderboard information
+            spriteBatch.DrawString(headerFont, "Statistics", new Vector2(920, 25), Color.ForestGreen);
+            spriteBatch.DrawString(informationFont, $"Minimum Wait Time: {(coffeeShop.MinWaitTime != default(double) ? $"{coffeeShop.MinWaitTime}s" : "N/A")}", 
+                new Vector2(850, 75), Color.Goldenrod);
+            spriteBatch.DrawString(informationFont, $"Maximium Wait Time: {(coffeeShop.MaxWaitTime != default(double) ? $"{coffeeShop.MaxWaitTime}s" : "N/A")}",
+                new Vector2(850, 125), Color.Red);
+            spriteBatch.DrawString(informationFont, $"Average Wait Time: {(coffeeShop.AverageWaitTime != default(double) ? $"{coffeeShop.AverageWaitTime}s" : "N/A")}", 
+                new Vector2(850, 175), Color.White);
+
+
             Customer[] customers = coffeeShop.TopFiveCustomersByWaitTime;
             for (int i = 0; i < customers.Length; ++i)
             {

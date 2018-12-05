@@ -103,7 +103,6 @@ namespace A4_DataManagement
                 customers[i].SetMovement(customerRectangles[i - 1]);
                 customers[i - 1] = customers[i];
             }
-            customers[Size - 1] = null;
 
             // Decrementing size
             --Size;
@@ -134,8 +133,8 @@ namespace A4_DataManagement
         /// <returns>An array containing the inside line queue customers</returns>
         public Customer[] ToArray()
         {
-            // Returning an array of non-null customers
-            return customers.Where(customer => customer != null).ToArray();
+            // Returning an array of customers in the inside line queue
+            return ArrayHelper<Customer>.GetSubarray(customers, 0, Size);                
         }
 
         /// <summary>

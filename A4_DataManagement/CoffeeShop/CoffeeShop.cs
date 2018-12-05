@@ -29,6 +29,26 @@ namespace A4_DataManagement
         public Customer[] TopFiveCustomersByWaitTime => ArrayHelper<Customer>.GetSubarray(
             CustomersByWaitTime, 0, Math.Min(5, CustomersByWaitTime.Length));
 
+        /// <summary>
+        /// The total number of customers served in the CoffeeShop
+        /// </summary>
+        public int TotalServed => cashierLine.TotalServed;
+
+        /// <summary>
+        /// The max wait time of a served customer, rounded to two deciminal places
+        /// </summary>
+        public double MaxWaitTime => Math.Round(cashierLine.MaxWaitTime, 2);
+
+        /// <summary>
+        /// The min wait time of a served customer, rounded to two deciminal places
+        /// </summary>
+        public double MinWaitTime => Math.Round(cashierLine.MinWaitTime, 2);
+
+        /// <summary>
+        /// The average wait time of a served customer, rounded to two deciminal places
+        /// </summary>
+        public double AverageWaitTime => Math.Round(cashierLine.AverageWaitTime, 2);
+
         // All customer related variables/objects
         private CashierLine cashierLine = new CashierLine();
         private InsideLineQueue insideLine = new InsideLineQueue();
