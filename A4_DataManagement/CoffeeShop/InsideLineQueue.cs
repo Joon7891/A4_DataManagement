@@ -69,7 +69,7 @@ namespace A4_DataManagement
             }
             else
             {
-                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 10), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
+                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 8), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             }
         }

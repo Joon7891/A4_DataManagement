@@ -20,13 +20,17 @@ namespace A4_DataManagement
     public sealed class CashierLine : IEntity
     {
         // Customer related data
-        private const int NUM_CASHIER = 4;
-        private Customer[] cashierCustomers = new Customer[NUM_CASHIER];
+        private Customer[] cashierCustomers = new Customer[TOTAL_CASHIERS];
         private List<Customer> exitingCustomers = new List<Customer>();
 
         // Various rectangles that customers are to be in
-        private static Rectangle[] exitRectangles = new Rectangle[NUM_CASHIER];
-        private static Rectangle[] cashierRectangles = new Rectangle[NUM_CASHIER];
+        private static Rectangle[] exitRectangles = new Rectangle[TOTAL_CASHIERS];
+        private static Rectangle[] cashierRectangles = new Rectangle[TOTAL_CASHIERS];
+
+        /// <summary>
+        /// The number of total cashiers
+        /// </summary>
+        public const int TOTAL_CASHIERS = 4;
 
         /// <summary>
         /// The number of cashiers currently available
@@ -36,7 +40,7 @@ namespace A4_DataManagement
         /// <summary>
         /// The number of customers in the cashier line - those being served and those exiting
         /// </summary>
-        public int Count => NUM_CASHIER - CashiersAvailable + exitingCustomers.Count;
+        public int Count => TOTAL_CASHIERS - CashiersAvailable + exitingCustomers.Count;
 
         /// <summary>
         /// The total number of people served
@@ -64,7 +68,7 @@ namespace A4_DataManagement
         static CashierLine()
         {
             // Setting up customer rectangles
-            for (int i = 0; i < NUM_CASHIER; ++i)
+            for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
                 cashierRectangles[i] = new Rectangle(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT, 
                     SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
@@ -90,7 +94,7 @@ namespace A4_DataManagement
         public void Update(GameTime gameTime)
         {            
             // Iterating through each cashier customer
-            for (int i = 0; i < NUM_CASHIER; ++i)
+            for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
                 if (cashierCustomers[i] != null)
                 {
@@ -150,7 +154,7 @@ namespace A4_DataManagement
         public void Draw(SpriteBatch spriteBatch)
         {
             // Drawing customers with cashiers
-            for (int i = 0; i < NUM_CASHIER; ++i)
+            for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
                 cashierCustomers[i]?.Draw(spriteBatch);
             }
@@ -169,7 +173,7 @@ namespace A4_DataManagement
         public void AddCustomer(Customer customer)
         {
             // Determining opening and adding customer as appropriate
-            for (int i = 0; i < NUM_CASHIER; ++i)
+            for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
                 if (cashierCustomers[i] == null)
                 {

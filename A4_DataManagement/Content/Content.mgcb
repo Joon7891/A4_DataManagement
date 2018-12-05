@@ -477,3 +477,22 @@
 /processorParam:TextureFormat=Color
 /build:Images/Backgrounds/woodBackgroundImage.jpg
 
+#begin Images/Sprites/whiteImage.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Sprites/whiteImage.jpg
+
+#begin Fonts/SubHeaderFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/SubHeaderFont.spritefont
+

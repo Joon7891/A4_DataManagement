@@ -38,15 +38,26 @@ namespace A4_DataManagement
         public static KeyboardState OldKeyboard { get; private set; }
 
         // Variables related to drawing the background for the leaderboard
+        private const int BORDER_SIZE = 6;
+        private Texture2D borderImage;
+        private Rectangle[] borderRectangles = new Rectangle[6];
         private Texture2D leaderboardBackgroundImage;
         private Rectangle leaderboardBackgroundRectangle;
 
         // SpriteFont objects to hold various fonts
         private SpriteFont headerFont;
+        private SpriteFont subHeaderFont;
         private SpriteFont informationFont;
+
+        // Variables required to draw various leaderboard data
+        private const int HORIZONTAL_TEXT_BUFFER = 820;
+        private const int HORIZONTAL_INFO_BUFFER = 1100;
+        private Vector2[] headerTextLocs = new Vector2[9];
+        private Vector2[] waitTimeLocs = new Vector2[11];
 
         // Instance of the coffee shop
         private CoffeeShop coffeeShop = new CoffeeShop();
+        private Customer[] topFiveCustomers;
 
         public Main()
         {
@@ -83,11 +94,33 @@ namespace A4_DataManagement
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Setting up leaderboard background
+            borderImage = Content.Load<Texture2D>("Images/Sprites/whiteImage");
+            borderRectangles[0] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, BORDER_SIZE, SharedData.SCREEN_HEIGHT);
+            borderRectangles[1] = new Rectangle(SharedData.SCREEN_WIDTH - BORDER_SIZE, 0, BORDER_SIZE, SharedData.SCREEN_HEIGHT);
+            borderRectangles[2] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
+            borderRectangles[3] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 60, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
+            borderRectangles[4] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 230, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
+            borderRectangles[5] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT - BORDER_SIZE, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
             leaderboardBackgroundImage = Content.Load<Texture2D>("Images/Backgrounds/woodBackgroundImage");
             leaderboardBackgroundRectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT);
 
+            // Setting up statistics text locations
+            headerTextLocs[0] = new Vector2(920, 20);
+            for (int i = 0; i < headerTextLocs.Length / 2; ++i)
+            {
+                headerTextLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 89 + 35 * i);
+                headerTextLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 89 + 35 * i);
+            }
+            waitTimeLocs[0] = new Vector2(868, 259);
+            for (int i = 0; i < waitTimeLocs.Length / 2; ++i)
+            {
+                waitTimeLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 300 + 35 * i);
+                waitTimeLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 300 + 35 * i);
+            }
+
             // Importing various fonts
             headerFont = Content.Load<SpriteFont>("Fonts/HeaderFont");
+            subHeaderFont = Content.Load<SpriteFont>("Fonts/SubHeaderFont");
             informationFont = Content.Load<SpriteFont>("Fonts/InformationFont");
         }
 
@@ -111,8 +144,9 @@ namespace A4_DataManagement
             OldKeyboard = NewKeyboard;
             NewKeyboard = Keyboard.GetState();
 
-            // Updating coffee shop
+            // Updating coffee shop and caching top five customers
             coffeeShop.Update(gameTime);
+            topFiveCustomers = coffeeShop.TopFiveCustomersByWaitTime;
 
             // Updating game
             base.Update(gameTime);
@@ -132,24 +166,30 @@ namespace A4_DataManagement
             // Drawing coffee shop
             coffeeShop.Draw(spriteBatch);
 
-            // Drawing leaderboard background
+            // Drawing leaderboard background with borders
             spriteBatch.Draw(leaderboardBackgroundImage, leaderboardBackgroundRectangle, Color.White);
-
-            // Drawing leaderboard information
-            spriteBatch.DrawString(headerFont, "Statistics", new Vector2(920, 25), Color.ForestGreen);
-            spriteBatch.DrawString(informationFont, $"Minimum Wait Time: {(coffeeShop.MinWaitTime != default(double) ? $"{coffeeShop.MinWaitTime}s" : "N/A")}", 
-                new Vector2(850, 75), Color.Goldenrod);
-            spriteBatch.DrawString(informationFont, $"Maximium Wait Time: {(coffeeShop.MaxWaitTime != default(double) ? $"{coffeeShop.MaxWaitTime}s" : "N/A")}",
-                new Vector2(850, 125), Color.Red);
-            spriteBatch.DrawString(informationFont, $"Average Wait Time: {(coffeeShop.AverageWaitTime != default(double) ? $"{coffeeShop.AverageWaitTime}s" : "N/A")}", 
-                new Vector2(850, 175), Color.White);
-
-
-            Customer[] customers = coffeeShop.TopFiveCustomersByWaitTime;
-            for (int i = 0; i < customers.Length; ++i)
+            for (int i = 0; i < borderRectangles.Length; ++i)
             {
-                spriteBatch.DrawString(informationFont, customers[i].Name, new Vector2(850, 50 * i), Color.White);
-                spriteBatch.DrawString(informationFont, $"{customers[i].WaitTime}s", new Vector2(950, 50 * i), Color.White);
+                spriteBatch.Draw(borderImage, borderRectangles[i], Color.White);
+            }
+
+            // Drawing max, min, and average wait time information
+            spriteBatch.DrawString(headerFont, "Statistics", headerTextLocs[0], Color.ForestGreen);
+            spriteBatch.DrawString(informationFont, $"Total Served:", headerTextLocs[1], Color.White);
+            spriteBatch.DrawString(informationFont, $"{coffeeShop.TotalServed}", headerTextLocs[2], Color.White);
+            spriteBatch.DrawString(informationFont, $"Average Wait Time:", headerTextLocs[3], Color.LightCyan);
+            spriteBatch.DrawString(informationFont, $"{coffeeShop.AverageWaitTime}s", headerTextLocs[4], Color.LightCyan);
+            spriteBatch.DrawString(informationFont, $"Minimum Wait Time:", headerTextLocs[5], Color.Goldenrod);
+            spriteBatch.DrawString(informationFont, $"{coffeeShop.MinWaitTime}s", headerTextLocs[6], Color.Goldenrod);
+            spriteBatch.DrawString(informationFont, $"Maximum Wait Time:", headerTextLocs[7], Color.Red);
+            spriteBatch.DrawString(informationFont, $"{coffeeShop.MaxWaitTime}s", headerTextLocs[8], Color.Red);
+
+            // Drawing top five customers by wait time information
+            spriteBatch.DrawString(subHeaderFont, "Top Five Customers", waitTimeLocs[0], Color.White);
+            for (int i = 0; i < 5; ++i)
+            {
+                spriteBatch.DrawString(informationFont, $"{i + 1}) {(i < topFiveCustomers.Length ? topFiveCustomers[i].Name : "N/A")}", waitTimeLocs[2 * i + 1], Color.White);
+                spriteBatch.DrawString(informationFont, $"{(i < topFiveCustomers.Length ? topFiveCustomers[i].WaitTime : 0.0)}s", waitTimeLocs[2 * i + 2], Color.White);
             }
 
             //spriteBatch.DrawString(headerFont, "Leaderboard", new Vector2(50, 50), Color.White);
