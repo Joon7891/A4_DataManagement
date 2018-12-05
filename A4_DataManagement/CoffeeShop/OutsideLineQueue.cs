@@ -22,9 +22,6 @@ namespace A4_DataManagement
         // List of customers in the outside line
         private List<Customer> customers = new List<Customer>();
 
-        // Memo/memoization of destination customer rectangles
-        private static Dictionary<int, Rectangle> destinationRectangleMemo = new Dictionary<int, Rectangle>();
-
         /// <summary>
         /// The number the customers in the outside line queue
         /// </summary>
@@ -36,23 +33,13 @@ namespace A4_DataManagement
         public bool IsEmpty => Size == 0;
 
         /// <summary>
-        /// Static constructor for OutsideLineQueue object
-        /// </summary>
-        static OutsideLineQueue()
-        {
-            // Adding first destination rectangle to memo
-            destinationRectangleMemo.Add(0, new Rectangle(100 - SharedData.CUSTOMER_WIDTH / 2,
-                SharedData.VERTICAL_BUFFER + 4 * SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT));
-        }
-
-        /// <summary>
         /// Subprogram to add a customer to the end of the outside line queue
         /// </summary>
         /// <param name="customer">The customer to be added</param>
         public void Enqueue(Customer customer)
         {
             // Adding customer to the end of the queue list
-            customer.SetMovement(GetDestinationRectangle(Size));
+            customer.SetMovement(GetDestinationLocation(Size));
             customers.Add(customer);
         }
 
@@ -74,7 +61,7 @@ namespace A4_DataManagement
                 // Shifting customers
                 for (int i = 0; i < customers.Count; ++i)
                 {
-                    customers[i].SetMovement(GetDestinationRectangle(i));
+                    customers[i].SetMovement(GetDestinationLocation(i));
                 }
             }
 
@@ -135,26 +122,21 @@ namespace A4_DataManagement
         }
 
         /// <summary>
-        /// Subprogram to retrieve a given customer's destination rectangle
+        /// Subprogram to retrieve a given customer's destination location
         /// </summary>
         /// <param name="index">The index of the cusomer in the queue</param>
-        /// <returns>The destination rectangle of the customer</returns>
-        private Rectangle GetDestinationRectangle(int index)
+        /// <returns>The destination location of the customer</returns>
+        private Vector2 GetDestinationLocation(int index)
         {
-            // Instance of destination rectangle as cache
-            Rectangle destinationRectangle;
-            
-            // Returning destination rectangle if it's in memo - utilizing memoization
-            if (destinationRectangleMemo.ContainsKey(index))
+            // If
+            if (index == 0)
             {
-                return destinationRectangleMemo[index];
+                return new Vector2(100 - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 4 * SharedData.CUSTOMER_HEIGHT);
             }
-            
-            // Otherwise constructing destination rectangle, memoizing it and returning it
-            destinationRectangle = new Rectangle(100 * index - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER +
-                5 * SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-            destinationRectangleMemo.Add(index, destinationRectangle);
-            return destinationRectangleMemo[index];
+            else
+            {
+                return new Vector2(100 * index - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
+            }
         }
     }
 }

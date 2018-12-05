@@ -33,7 +33,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Whether the customer is currently moving
         /// </summary>
-        public bool IsMoving => !(rectangle.X == targetRectangle.X && rectangle.Y == targetRectangle.Y);
+        public bool IsMoving => !(rectangle.X == targetLocation.X && rectangle.Y == targetLocation.Y);
 
         // Time and service related variables
         private double waitTime = 0;
@@ -49,7 +49,7 @@ namespace A4_DataManagement
 
         // Movement related variables
         private Rectangle rectangle;
-        private Rectangle targetRectangle;
+        private Vector2 targetLocation;
         private double nonRoundedX;
         private double nonRoundedY;
         private Vector2 velocity;
@@ -135,9 +135,9 @@ namespace A4_DataManagement
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity and flipping direction if x-movement will overshoot
-                if (Math.Abs(rectangle.X - targetRectangle.X) * 60 < Math.Abs(velocity.X))
+                if (Math.Abs(rectangle.X - targetLocation.X) * 60 < Math.Abs(velocity.X))
                 {
-                    velocity.X = (targetRectangle.X - rectangle.X) * 60;
+                    velocity.X = (targetLocation.X - rectangle.X) * 60;
                     currentDirection = velocity.Y > 0 ? Direction.Down : Direction.Up;
                 }
 
@@ -148,9 +148,9 @@ namespace A4_DataManagement
             else
             {
                 // Adjusting y-velocity if y-movement will overshoot
-                if (Math.Abs(rectangle.Y - targetRectangle.Y) * 60 < Math.Abs(velocity.Y))
+                if (Math.Abs(rectangle.Y - targetLocation.Y) * 60 < Math.Abs(velocity.Y))
                 {
-                    velocity.Y = (targetRectangle.Y - rectangle.Y) * 60;
+                    velocity.Y = (targetLocation.Y - rectangle.Y) * 60;
                 }
 
                 // Moving customer rectangle
@@ -162,14 +162,14 @@ namespace A4_DataManagement
         /// <summary>
         /// Subprogram to set the movement of a Customer
         /// </summary>
-        /// <param name="targetRectangle">The target rectangle Customer is to move to</param>
+        /// <param name="targetLocation">The location the Customer is to move to</param>
         /// <param name="movementTime">The time in which Customer is to move</param>
-        public void SetMovement(Rectangle targetRectangle)
+        public void SetMovement(Vector2 targetLocation)
         {
             // Setting up x component of velocity vector
-            if (targetRectangle.X - rectangle.X != 0)
+            if (targetLocation.X - rectangle.X != 0)
             {
-                velocity.X = 200 * (targetRectangle.X - rectangle.X > 0 ? 1 : -1);
+                velocity.X = 200 * (targetLocation.X - rectangle.X > 0 ? 1 : -1);
                 currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
             }
             else
@@ -178,9 +178,9 @@ namespace A4_DataManagement
             }
 
             // Setting up y component of velocity vector
-            if (targetRectangle.Y - rectangle.Y != 0)
+            if (targetLocation.Y - rectangle.Y != 0)
             {
-                velocity.Y = 200 * (targetRectangle.Y - rectangle.Y > 0 ? 1 : -1);
+                velocity.Y = 200 * (targetLocation.Y - rectangle.Y > 0 ? 1 : -1);
             }
             else
             {
@@ -190,7 +190,7 @@ namespace A4_DataManagement
             // Setting various variables to ensure proper correlation of movement
             nonRoundedX = rectangle.X;
             nonRoundedY = rectangle.Y;
-            this.targetRectangle = targetRectangle;
+            this.targetLocation = targetLocation;
         }
     }
 }

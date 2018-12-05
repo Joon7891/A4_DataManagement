@@ -23,9 +23,9 @@ namespace A4_DataManagement
         private Customer[] cashierCustomers = new Customer[TOTAL_CASHIERS];
         private List<Customer> exitingCustomers = new List<Customer>();
 
-        // Various rectangles that customers are to be in
-        private static Rectangle[] exitRectangles = new Rectangle[TOTAL_CASHIERS];
-        private static Rectangle[] cashierRectangles = new Rectangle[TOTAL_CASHIERS];
+        // Various locations that customers are to be in
+        private static Vector2[] exitLocations = new Vector2[TOTAL_CASHIERS];
+        private static Vector2[] cashierLocations = new Vector2[TOTAL_CASHIERS];
 
         /// <summary>
         /// The number of total cashiers
@@ -67,13 +67,11 @@ namespace A4_DataManagement
         /// </summary>
         static CashierLine()
         {
-            // Setting up customer rectangles
+            // Setting up customer locations
             for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
-                cashierRectangles[i] = new Rectangle(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT, 
-                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-                exitRectangles[i] = new Rectangle(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 200 * i, 
-                    -SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                cashierLocations[i] = new Vector2(74 + 200 * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT);
+                exitLocations[i] = new Vector2(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 200 * i, -SharedData.CUSTOMER_HEIGHT);
             }
         }
 
@@ -110,7 +108,7 @@ namespace A4_DataManagement
                     // Making customer exit if they have been servied
                     if (cashierCustomers[i].Serviced)
                     {
-                        cashierCustomers[i].SetMovement(exitRectangles[i]);
+                        cashierCustomers[i].SetMovement(exitLocations[i]);
                         exitingCustomers.Add(cashierCustomers[i]);
                         cashierCustomers[i] = null;
                     }
@@ -178,7 +176,7 @@ namespace A4_DataManagement
                 if (cashierCustomers[i] == null)
                 {
                     cashierCustomers[i] = customer;
-                    cashierCustomers[i].SetMovement(cashierRectangles[i]);
+                    cashierCustomers[i].SetMovement(cashierLocations[i]);
                     return;
                 }
             }

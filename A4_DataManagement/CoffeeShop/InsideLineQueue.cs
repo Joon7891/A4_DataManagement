@@ -21,7 +21,7 @@ namespace A4_DataManagement
         // Customer-related variables
         private const int MAX_SIZE = 16;
         private Customer[] customers = new Customer[MAX_SIZE];
-        private static Rectangle[] customerRectangles = new Rectangle[MAX_SIZE];
+        private static Vector2[] customerLocations = new Vector2[MAX_SIZE];
 
         /// <summary>
         /// The number of customers in the inside line queue
@@ -38,39 +38,36 @@ namespace A4_DataManagement
         /// </summary>
         static InsideLineQueue()
         {
-            // Setting up customer rectangles
+            // Setting up customer locations
             for (int i = 0; i < MAX_SIZE; ++i)
             {
-                customerRectangles[i] = GetCustomerRectangle(i);
+                customerLocations[i] = GetCustomerLocation(i);
             }
         }
 
         /// <summary>
-        /// Subprogram to generate the customer rectangle
+        /// Subprogram to generate the customer location
         /// </summary>
-        /// <param name="index">The index of the customer rectangle</param>
-        /// <returns>The customer rectangle</returns>
-        private static Rectangle GetCustomerRectangle(int index)
+        /// <param name="index">The index of the customer location</param>
+        /// <returns>The customer location</returns>
+        private static Vector2 GetCustomerLocation(int index)
         {
+            // Returning appropriate customer vector based on index
             if (index == 0)
             {
-                return new Rectangle((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER, 
-                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER);
             }
             else if (index < 8)
             {
-                return new Rectangle((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4),
-                    SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT, SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4), SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT);
             }
             else if (index == 8)
             {
-                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT,
-                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT);
             }
             else
             {
-                return new Rectangle(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 8), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT,
-                    SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 8), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT);
             }
         }
 
@@ -83,7 +80,7 @@ namespace A4_DataManagement
             // Adding customer to the end of the queue if there is room
             if (Size < MAX_SIZE)
             {
-                customer.SetMovement(customerRectangles[Size]);
+                customer.SetMovement(customerLocations[Size]);
                 customers[Size++] = customer;
             }
         }
@@ -100,7 +97,7 @@ namespace A4_DataManagement
             // Shifting customers down the line
             for (int i = 1; i < Math.Min(Size, MAX_SIZE); ++i)
             {
-                customers[i].SetMovement(customerRectangles[i - 1]);
+                customers[i].SetMovement(customerLocations[i - 1]);
                 customers[i - 1] = customers[i];
             }
 
