@@ -47,17 +47,22 @@ namespace A4_DataManagement
         /// </summary>
         public static MouseState OldMouse { get; private set; }
 
+        // Instance of the coffee shop
+        private CoffeeShop coffeeShop = new CoffeeShop();
+        private Customer[] topFiveCustomers = new Customer[0];
+
+        // Time and status related variables
+        private Vector2 timeLeftLoc = new Vector2(HORIZONTAL_TEXT_BUFFER, 550);
+        private double timeLeft = 300;
+        private Button[] statusButtons = new Button[2];
+        private bool isActive = true;
+
         // Variables related to drawing the background for the leaderboard
         private const int BORDER_SIZE = 6;
         private Texture2D borderImage;
-        private Rectangle[] borderRectangles = new Rectangle[6];
+        private Rectangle[] borderRectangles = new Rectangle[7];
         private Texture2D leaderboardBackgroundImage;
         private Rectangle leaderboardBackgroundRectangle;
-
-        // SpriteFont objects to hold various fonts
-        private SpriteFont headerFont;
-        private SpriteFont subHeaderFont;
-        private SpriteFont informationFont;
 
         // Variables required to draw various leaderboard data
         private const int HORIZONTAL_TEXT_BUFFER = 820;
@@ -65,10 +70,11 @@ namespace A4_DataManagement
         private Vector2[] headerTextLocs = new Vector2[9];
         private Vector2[] waitTimeLocs = new Vector2[11];
 
-        // Instance of the coffee shop
-        private CoffeeShop coffeeShop = new CoffeeShop();
-        private Customer[] topFiveCustomers;
-
+        // SpriteFont objects to hold various fonts
+        private SpriteFont headerFont;
+        private SpriteFont subHeaderFont;
+        private SpriteFont informationFont;
+        
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -109,8 +115,9 @@ namespace A4_DataManagement
             borderRectangles[1] = new Rectangle(SharedData.SCREEN_WIDTH - BORDER_SIZE, 0, BORDER_SIZE, SharedData.SCREEN_HEIGHT);
             borderRectangles[2] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
             borderRectangles[3] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 60, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
-            borderRectangles[4] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 230, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
-            borderRectangles[5] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT - BORDER_SIZE, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
+            borderRectangles[4] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 250, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
+            borderRectangles[5] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, BORDER_SIZE + 520, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE / 2);
+            borderRectangles[6] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT - BORDER_SIZE, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
             leaderboardBackgroundImage = Content.Load<Texture2D>("Images/Backgrounds/woodBackgroundImage");
             leaderboardBackgroundRectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT);
 
@@ -118,14 +125,14 @@ namespace A4_DataManagement
             headerTextLocs[0] = new Vector2(920, 20);
             for (int i = 0; i < headerTextLocs.Length / 2; ++i)
             {
-                headerTextLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 89 + 35 * i);
-                headerTextLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 89 + 35 * i);
+                headerTextLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 89 + 40 * i);
+                headerTextLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 89 + 40 * i);
             }
-            waitTimeLocs[0] = new Vector2(868, 259);
+            waitTimeLocs[0] = new Vector2(868, 279);
             for (int i = 0; i < waitTimeLocs.Length / 2; ++i)
             {
-                waitTimeLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 300 + 35 * i);
-                waitTimeLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 300 + 35 * i);
+                waitTimeLocs[2 * i + 1] = new Vector2(HORIZONTAL_TEXT_BUFFER, 320 + 40 * i);
+                waitTimeLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 320 + 40 * i);
             }
 
             // Importing various fonts
@@ -156,9 +163,15 @@ namespace A4_DataManagement
             NewKeyboard = Keyboard.GetState();
             NewMouse = Mouse.GetState();
 
-            // Updating coffee shop and caching top five customers
-            coffeeShop.Update(gameTime);
-            topFiveCustomers = coffeeShop.TopFiveCustomersByWaitTime;
+            // Updating time left
+            timeLeft -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+
+            // Updating coffee shop and caching top five customers if simluation is active
+            if (isActive)
+            {
+                coffeeShop.Update(gameTime);
+                topFiveCustomers = coffeeShop.TopFiveCustomersByWaitTime;
+            }
 
             // Updating game
             base.Update(gameTime);
@@ -204,7 +217,8 @@ namespace A4_DataManagement
                 spriteBatch.DrawString(informationFont, $"{(i < topFiveCustomers.Length ? topFiveCustomers[i].WaitTime : 0.0)}s", waitTimeLocs[2 * i + 2], Color.White);
             }
 
-            //spriteBatch.DrawString(headerFont, "Leaderboard", new Vector2(50, 50), Color.White);
+            // Drawing time remaining and buttons
+            spriteBatch.DrawString(informationFont, $"Time Left: {Math.Round(timeLeft, 2)}s", timeLeftLoc, Color.White);
 
             // Ending spriteBatch
             spriteBatch.End();
