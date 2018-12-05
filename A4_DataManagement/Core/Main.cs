@@ -28,16 +28,6 @@ namespace A4_DataManagement
         public new static ContentManager Content { get; private set; }
 
         /// <summary>
-        /// The current keyboard state
-        /// </summary>
-        public static KeyboardState NewKeyboard { get; private set; }
-
-        /// <summary>
-        /// The state of the keyboard one frame back
-        /// </summary>
-        public static KeyboardState OldKeyboard { get; private set; }
-
-        /// <summary>
         /// The current mouse state
         /// </summary>
         public static MouseState NewMouse { get; private set; }
