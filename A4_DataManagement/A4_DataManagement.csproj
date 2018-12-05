@@ -56,8 +56,10 @@
     <Compile Include="Core\SharedData.cs" />
     <Compile Include="CoffeeShop\CoffeeShop.cs" />
     <Compile Include="Utility\ArrayHelper.cs" />
+    <Compile Include="Utility\Button.cs" />
+    <Compile Include="Utility\ColissionHelper.cs" />
     <Compile Include="Utility\IEntity.cs" />
-    <Compile Include="Utility\KeyboardHelper.cs" />
+    <Compile Include="Utility\MouseHelper.cs" />
     <Compile Include="Utility\SortHelper.cs" />
   </ItemGroup>
   <ItemGroup>

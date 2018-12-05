@@ -37,6 +37,16 @@ namespace A4_DataManagement
         /// </summary>
         public static KeyboardState OldKeyboard { get; private set; }
 
+        /// <summary>
+        /// The current mouse state
+        /// </summary>
+        public static MouseState NewMouse { get; private set; }
+
+        /// <summary>
+        /// The state of the mouse one frame back
+        /// </summary>
+        public static MouseState OldMouse { get; private set; }
+
         // Variables related to drawing the background for the leaderboard
         private const int BORDER_SIZE = 6;
         private Texture2D borderImage;
@@ -140,9 +150,11 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {            
-            // Updating keyboard states
+            // Updating keyboard and mouse states
             OldKeyboard = NewKeyboard;
+            OldMouse = NewMouse;
             NewKeyboard = Keyboard.GetState();
+            NewMouse = Mouse.GetState();
 
             // Updating coffee shop and caching top five customers
             coffeeShop.Update(gameTime);
