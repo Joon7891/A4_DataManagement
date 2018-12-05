@@ -55,7 +55,6 @@ namespace A4_DataManagement
         private Vector2 timeLeftLoc = new Vector2(HORIZONTAL_TEXT_BUFFER, 550);
         private double timeLeft = 300;
         private Button[] statusButtons = new Button[2];
-        private bool isActive = true;
 
         // Variables related to drawing the background for the leaderboard
         private const int BORDER_SIZE = 6;
@@ -167,7 +166,7 @@ namespace A4_DataManagement
             timeLeft -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
 
             // Updating coffee shop and caching top five customers if simluation is active
-            if (isActive)
+            if (true)
             {
                 coffeeShop.Update(gameTime);
                 topFiveCustomers = coffeeShop.TopFiveCustomersByWaitTime;

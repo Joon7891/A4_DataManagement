@@ -135,22 +135,27 @@ namespace A4_DataManagement
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity and flipping direction if x-movement will overshoot
-                if (Math.Abs(rectangle.X - targetLocation.X) * 60 < Math.Abs(velocity.X))
+                if (Math.Abs(rectangle.X - targetLocation.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
                 {
-                    velocity.X = (targetLocation.X - rectangle.X) * 60;
-                    currentDirection = velocity.Y > 0 ? Direction.Down : Direction.Up;
+                    velocity.X = (targetLocation.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 // Moving customer rectangle
                 nonRoundedX += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
                 rectangle.X = (int)(nonRoundedX + 0.5);
+
+                // Changing direction to vertical if horizontal movement has finished 
+                if (rectangle.X == targetLocation.X)
+                {
+                    currentDirection = velocity.Y > 0 ? Direction.Down : Direction.Up;
+                }
             }
             else
             {
                 // Adjusting y-velocity if y-movement will overshoot
-                if (Math.Abs(rectangle.Y - targetLocation.Y) * 60 < Math.Abs(velocity.Y))
+                if (Math.Abs(rectangle.Y - targetLocation.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.Y))
                 {
-                    velocity.Y = (targetLocation.Y - rectangle.Y) * 60;
+                    velocity.Y = (targetLocation.Y - rectangle.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 // Moving customer rectangle
