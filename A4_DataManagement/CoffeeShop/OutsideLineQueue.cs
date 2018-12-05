@@ -131,11 +131,11 @@ namespace A4_DataManagement
             // If
             if (index == 0)
             {
-                return new Vector2(100 - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 4 * SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.HORIZONTAL_BUFFER - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 4 * SharedData.CUSTOMER_HEIGHT);
             }
             else
             {
-                return new Vector2(100 * index - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.HORIZONTAL_BUFFER * index - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
             }
         }
     }

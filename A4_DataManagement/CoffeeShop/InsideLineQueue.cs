@@ -55,19 +55,19 @@ namespace A4_DataManagement
             // Returning appropriate customer vector based on index
             if (index == 0)
             {
-                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 300, SharedData.VERTICAL_BUFFER);
+                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 3 * SharedData.HORIZONTAL_BUFFER, SharedData.VERTICAL_BUFFER);
             }
             else if (index < 8)
             {
-                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + 100 * (index - 4), SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT);
+                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + SharedData.HORIZONTAL_BUFFER * (index - 4), SharedData.VERTICAL_BUFFER + SharedData.CUSTOMER_HEIGHT);
             }
             else if (index == 8)
             {
-                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_BUFFER, SharedData.VERTICAL_BUFFER + 2 * SharedData.CUSTOMER_HEIGHT);
             }
             else
             {
-                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - 100 * (index - 8), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT);
+                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_BUFFER * (index - 8), SharedData.VERTICAL_BUFFER + 3 * SharedData.CUSTOMER_HEIGHT);
             }
         }
 
