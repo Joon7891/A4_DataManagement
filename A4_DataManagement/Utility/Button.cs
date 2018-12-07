@@ -3,7 +3,7 @@
 // File Name: Button.cs
 // Creation Date: 09/10/2018
 // Modified Date: 09/18/2018
-// Desription: Class to hold Button, an object that represents an on-screen button
+// Desription: Class to hold Button, an object that represents an on-screen button, implements the entity interface
 
 using System;
 using System.Collections.Generic;
@@ -12,13 +12,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace A4_DataManagement
 {
-    public sealed class Button
+    public sealed class Button : IEntity
     {
-        // Delegate and instance of delegate to hold button behavior
+        // Variables button click related fields
+        private static SoundEffect clickSoundEffect;
         public delegate void OnClick();
         private OnClick onClick;
 
@@ -26,8 +27,19 @@ namespace A4_DataManagement
         private Texture2D image;
         private Rectangle rect;
 
-        // Variable to hold information on if mouse is hovering over button
-        private bool isMouseHovering;
+
+        /// <summary>
+        /// Whether the mouse is hovering above the button
+        /// </summary>
+        public bool IsMouseHovering => CollisionHelper.PointToRect(Main.NewMouse.Position.ToVector2(), rect);
+
+        /// <summary>
+        /// Static constructor to setup Button components
+        /// </summary>
+        static Button()
+        {
+            clickSoundEffect = Main.Content.Load<SoundEffect>("Audio/SoundEffects/buttonClick");
+        }
 
         /// <summary>
         /// Constructor for button object
@@ -49,12 +61,10 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Update(GameTime gameTime)
         {
-            // Updating variable on if mouse is hovering over button
-            isMouseHovering = CollisionHelper.PointToRect(Main.NewMouse.Position.ToVector2(), rect);
-
-            // Invoking button behvior if button is clicked
-            if (MouseHelper.NewClick() && isMouseHovering)
+            // Invoking button behavior and sound if button is clicked
+            if (MouseHelper.NewClick() && IsMouseHovering)
             {
+                clickSoundEffect.CreateInstance().Play();
                 onClick();
             }
         }
@@ -66,7 +76,7 @@ namespace A4_DataManagement
         public void Draw(SpriteBatch spriteBatch)
         {
             // Drawing button; transparency is higher if mouse is not hovering over button
-            spriteBatch.Draw(image, rect, Color.White * (0.6f + 0.4f * Convert.ToByte(isMouseHovering)));
+            spriteBatch.Draw(image, rect, Color.White * (0.6f + 0.4f * Convert.ToByte(IsMouseHovering)));
         }
     }
 }

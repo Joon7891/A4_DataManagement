@@ -37,14 +37,18 @@ namespace A4_DataManagement
         /// </summary>
         public static MouseState OldMouse { get; private set; }
 
-        // Instance of the coffee shop
+        // Instance of the coffee shop and its customers
         private CoffeeShop coffeeShop = new CoffeeShop();
         private Customer[] topFiveCustomers = new Customer[0];
 
-        // Time and status related variables
+        // Time related variables
         private Vector2 timeLeftLoc = new Vector2(HORIZONTAL_TEXT_BUFFER, 550);
         private double timeLeft = 300;
-        private Button[] statusButtons = new Button[2];
+
+        // Status related variables
+        private SimulationStatus simulationStatus = SimulationStatus.NotStarted;
+        private Rectangle buttonRectangle = new Rectangle(1055, 540, 120, 40); // = new Rectangle(x, y, 120, 40);
+        private Button[] statusButtons = new Button[3];
 
         // Variables related to drawing the background for the leaderboard
         private const int BORDER_SIZE = 6;
@@ -63,7 +67,7 @@ namespace A4_DataManagement
         private SpriteFont headerFont;
         private SpriteFont subHeaderFont;
         private SpriteFont informationFont;
-        
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -124,6 +128,16 @@ namespace A4_DataManagement
                 waitTimeLocs[2 * i + 2] = new Vector2(HORIZONTAL_INFO_BUFFER, 320 + 40 * i);
             }
 
+            // Setting up simulation status buttons
+            statusButtons[0] = new Button(Content.Load<Texture2D>("Images/Sprites/Buttons/playButton"), buttonRectangle, 
+                () => {
+                    simulationStatus = SimulationStatus.Playing;
+                    coffeeShop = new CoffeeShop();
+                    timeLeft = 300;
+                });
+            statusButtons[1] = new Button(Content.Load<Texture2D>("Images/Sprites/Buttons/pauseButton"), buttonRectangle, () => simulationStatus = SimulationStatus.Paused);
+            statusButtons[2] = new Button(Content.Load<Texture2D>("Images/Sprites/Buttons/resumeButton"), buttonRectangle, () => simulationStatus = SimulationStatus.Playing);
+
             // Importing various fonts
             headerFont = Content.Load<SpriteFont>("Fonts/HeaderFont");
             subHeaderFont = Content.Load<SpriteFont>("Fonts/SubHeaderFont");
@@ -147,19 +161,25 @@ namespace A4_DataManagement
         protected override void Update(GameTime gameTime)
         {            
             // Updating keyboard and mouse states
-            OldKeyboard = NewKeyboard;
             OldMouse = NewMouse;
-            NewKeyboard = Keyboard.GetState();
             NewMouse = Mouse.GetState();
 
-            // Updating time left
-            timeLeft -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+            // Updating appropriate status button
+            statusButtons[(byte)simulationStatus].Update(gameTime);
 
-            // Updating coffee shop and caching top five customers if simluation is active
-            if (true)
+            // Updating coffee shop, time left, and customers if simulation is running
+            if (simulationStatus == SimulationStatus.Playing)
             {
+                timeLeft -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
                 coffeeShop.Update(gameTime);
                 topFiveCustomers = coffeeShop.TopFiveCustomersByWaitTime;
+            }
+
+            // Resetting time and simulation status if 5 minutes finish
+            if (timeLeft <= 0)
+            {
+                timeLeft = 0;
+                simulationStatus = SimulationStatus.NotStarted;
             }
 
             // Updating game
@@ -208,6 +228,7 @@ namespace A4_DataManagement
 
             // Drawing time remaining and buttons
             spriteBatch.DrawString(informationFont, $"Time Left: {Math.Round(timeLeft, 2)}s", timeLeftLoc, Color.White);
+            statusButtons[(byte)simulationStatus].Draw(spriteBatch);
 
             // Ending spriteBatch
             spriteBatch.End();

@@ -58,6 +58,7 @@
     <Compile Include="Utility\ArrayHelper.cs" />
     <Compile Include="Utility\Button.cs" />
     <Compile Include="Utility\ColissionHelper.cs" />
+    <Compile Include="Utility\SimulationStatus.cs" />
     <Compile Include="Utility\IEntity.cs" />
     <Compile Include="Utility\MouseHelper.cs" />
     <Compile Include="Utility\SortHelper.cs" />
