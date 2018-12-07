@@ -18,9 +18,8 @@ namespace A4_DataManagement
 {
     public sealed class FoodCustomer : Customer
     {
-        // Static variables to hold FoodCustomer service time and instances count
+        // Constant for FoodCustomer service time
         private const int SERVICE_TIME = 18;
-        private static int instancesCounter = 0;
 
         // 2D array to hold directional images for FoodCustomer
         private new static Texture2D[,] directionalImages = new Texture2D[4, 3];
@@ -44,11 +43,12 @@ namespace A4_DataManagement
         /// <summary>
         /// Constructor for FoodCustomer object
         /// </summary>
-        public FoodCustomer() : base()
+        /// <param name="ID">The unique ID identifier of the FoodCustomer</param>
+        public FoodCustomer(int ID) : base()
         {
             // Setting up various food customer attributes
             serviceTime = SERVICE_TIME;
-            Name = $"Food{++instancesCounter}";
+            Name = $"Food{ID}";
             base.directionalImages = directionalImages;
         }
     }

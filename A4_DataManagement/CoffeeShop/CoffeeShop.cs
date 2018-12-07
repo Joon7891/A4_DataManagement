@@ -49,6 +49,11 @@ namespace A4_DataManagement
         /// </summary>
         public double AverageWaitTime => Math.Round(cashierLine.AverageWaitTime, 2);
 
+        // Counter for instances of each customer type
+        private int coffeeCustomerCount = 0;
+        private int foodCustomerCount = 0;
+        private int bothCustomerCount = 0;
+
         // All customer related variables/objects
         private CashierLine cashierLine = new CashierLine();
         private InsideLineQueue insideLine = new InsideLineQueue();
@@ -120,15 +125,15 @@ namespace A4_DataManagement
             switch(customerType)
             {
                 case 0:
-                    customer = new CoffeeCustomer();
+                    customer = new CoffeeCustomer(++coffeeCustomerCount);
                     break;
 
                 case 1:
-                    customer = new FoodCustomer();
+                    customer = new FoodCustomer(++foodCustomerCount);
                     break;
 
                 case 2:
-                    customer = new BothCustomer();
+                    customer = new BothCustomer(++bothCustomerCount);
                     break;
             }
 
