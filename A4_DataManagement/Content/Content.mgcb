@@ -538,3 +538,9 @@
 /processorParam:Quality=Best
 /build:Audio/SoundEffects/buttonClick.mp3
 
+#begin Audio/Music/coffeeShopMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Music/coffeeShopMusic.mp3
+

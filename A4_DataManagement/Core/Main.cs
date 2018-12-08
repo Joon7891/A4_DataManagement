@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace A4_DataManagement
 {
@@ -67,6 +69,9 @@ namespace A4_DataManagement
         private SpriteFont headerFont;
         private SpriteFont subHeaderFont;
         private SpriteFont informationFont;
+
+        // Background music
+        private Song backgroundMusic;
 
         public Main()
         {
@@ -142,6 +147,9 @@ namespace A4_DataManagement
             headerFont = Content.Load<SpriteFont>("Fonts/HeaderFont");
             subHeaderFont = Content.Load<SpriteFont>("Fonts/SubHeaderFont");
             informationFont = Content.Load<SpriteFont>("Fonts/InformationFont");
+
+            // Importing background music
+            backgroundMusic = Content.Load<Song>("Audio/Music/coffeeShopMusic");
         }
 
         /// <summary>
@@ -180,6 +188,12 @@ namespace A4_DataManagement
             {
                 timeLeft = 0;
                 simulationStatus = SimulationStatus.NotStarted;
+            }
+
+            // Playing background music on loop
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(backgroundMusic);
             }
 
             // Updating game
