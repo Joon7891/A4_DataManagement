@@ -33,7 +33,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Whether the customer is currently moving
         /// </summary>
-        public bool IsMoving => targetQueue.Count > 0 || !(rectangle.X == targetLocation.X && rectangle.Y == targetLocation.Y);
+        public bool IsMoving => targetQueue.Count > 0 || !(rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y);
 
         // Time and service related variables
         private double waitTime = 0;
@@ -50,7 +50,7 @@ namespace A4_DataManagement
         // Movement related variables
         private Queue<Vector2> targetQueue = new Queue<Vector2>();
         private Rectangle rectangle;
-        private Vector2 targetLocation;
+        private Vector2 currentTarget;
         private Vector2 velocity;
         private double nonRoundedX;
         private double nonRoundedY;
@@ -72,8 +72,8 @@ namespace A4_DataManagement
             // Constructing initial customer rectangle
             rectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH + SharedData.CUSTOMER_WIDTH, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT,
                 SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
-            targetLocation.X = rectangle.X;
-            targetLocation.Y = rectangle.Y;
+            currentTarget.X = rectangle.X;
+            currentTarget.Y = rectangle.Y;
         }
 
         /// <summary>
@@ -134,19 +134,20 @@ namespace A4_DataManagement
                 imageNumber = (imageNumber + 1) % 3;
             }
 
-            if (rectangle.X == targetLocation.X && rectangle.Y == targetLocation.Y && targetQueue.Count > 0)
+            // Moving onto next target if Customer has reached current target
+            if (rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y && targetQueue.Count > 0)
             {
-                targetLocation = targetQueue.Dequeue();
-                SetMovement(targetLocation);
+                currentTarget = targetQueue.Dequeue();
+                SetMovement();
             }
 
             // Moving customer in appropraite direction
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity if horizontal movement will overshoot
-                if (Math.Abs(nonRoundedX - targetLocation.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
+                if (Math.Abs(nonRoundedX - currentTarget.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
                 {
-                    velocity.X = (targetLocation.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
+                    velocity.X = (currentTarget.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 // Moving customer rectangle
@@ -154,7 +155,7 @@ namespace A4_DataManagement
                 rectangle.X = (int)(nonRoundedX + 0.5);
 
                 // Changing direction to vertical if customer should now move vertically
-                if (rectangle.X == targetLocation.X && rectangle.Y != targetLocation.Y)
+                if (rectangle.X == currentTarget.X && rectangle.Y != currentTarget.Y)
                 {
                     currentDirection = velocity.Y > 0 ? Direction.Down : Direction.Up;
                 }
@@ -162,9 +163,9 @@ namespace A4_DataManagement
             else
             {
                 // Adjusting y-velocity if vertical movement will overshoot
-                if (Math.Abs(nonRoundedY - targetLocation.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.Y))
+                if (Math.Abs(nonRoundedY - currentTarget.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.Y))
                 {
-                    velocity.Y = (targetLocation.Y - rectangle.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
+                    velocity.Y = (currentTarget.Y - rectangle.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 // Moving customer rectangle
@@ -172,7 +173,7 @@ namespace A4_DataManagement
                 rectangle.Y = (int)(nonRoundedY + 0.5);
 
                 // Changing direction to vertical if customer should now move horizontally
-                if (rectangle.Y == targetLocation.Y && rectangle.X != targetLocation.X)
+                if (rectangle.Y == currentTarget.Y && rectangle.X != currentTarget.X)
                 {
                     currentDirection = velocity.X > 0 ? Direction.Right : Direction.Left;
                 }
@@ -198,11 +199,14 @@ namespace A4_DataManagement
             }
         }
 
-        private void SetMovement(Vector2 targetLocation)
+        /// <summary>
+        /// Subprogram to set the movement of the Customer to the current target
+        /// </summary>
+        private void SetMovement()
         {
             // Setting up velocity vector
-            velocity.X = (targetLocation.X - rectangle.X == 0) ? 0 : 200 * (targetLocation.X - rectangle.X > 0 ? 1 : -1);
-            velocity.Y = (targetLocation.Y - rectangle.Y == 0) ? 0 : 200 * (targetLocation.Y - rectangle.Y > 0 ? 1 : -1);
+            velocity.X = (currentTarget.X - rectangle.X == 0) ? 0 : 200 * (currentTarget.X - rectangle.X > 0 ? 1 : -1);
+            velocity.Y = (currentTarget.Y - rectangle.Y == 0) ? 0 : 200 * (currentTarget.Y - rectangle.Y > 0 ? 1 : -1);
 
             // Setting up current direction
             currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
