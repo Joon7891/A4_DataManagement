@@ -50,10 +50,11 @@ namespace A4_DataManagement
         // Movement related variables
         private Rectangle rectangle;
         private Vector2 targetLocation;
+        private Vector2 velocity;
         private double nonRoundedX;
         private double nonRoundedY;
-        private Vector2 velocity;
-        
+        private bool horizontalPriority;
+
         /// <summary>
         /// Static constructor to set up Customer class
         /// </summary>
@@ -169,7 +170,8 @@ namespace A4_DataManagement
         /// </summary>
         /// <param name="targetLocation">The location the Customer is to move to</param>
         /// <param name="movementTime">The time in which Customer is to move</param>
-        public void SetMovement(Vector2 targetLocation)
+        /// <param name="horizontalPriority">Whether horizontal movement is prioritized over vertical movement</param>
+        public void SetMovement(Vector2 targetLocation, bool horizontalPriority = true)
         {
             // Setting up x component of velocity vector
             if (targetLocation.X - rectangle.X != 0)

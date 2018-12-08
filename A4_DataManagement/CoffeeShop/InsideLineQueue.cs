@@ -80,7 +80,7 @@ namespace A4_DataManagement
             // Adding customer to the end of the queue if there is room
             if (Size < MAX_SIZE)
             {
-                customer.SetMovement(customerLocations[Size]);
+                customer.SetMovement(customerLocations[Size], Size + 1 == MAX_SIZE);
                 customers[Size++] = customer;
             }
         }

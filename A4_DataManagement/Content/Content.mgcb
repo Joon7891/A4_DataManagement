@@ -544,3 +544,15 @@
 /processorParam:Quality=Best
 /build:Audio/Music/coffeeShopMusic.mp3
 
+#begin Images/Backgrounds/coffeeShopBackground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Backgrounds/coffeeShopBackground.png
+

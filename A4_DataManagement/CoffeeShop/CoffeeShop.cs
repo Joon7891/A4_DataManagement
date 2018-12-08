@@ -63,6 +63,24 @@ namespace A4_DataManagement
         private const int ADD_TIME = 3;
         private float addTimer = 0;
 
+
+        private static Texture2D backgroundImage;
+        private static Rectangle backgroundRectangle = new Rectangle(0, 0, SharedData.COFFEE_SHOP_WIDTH, SharedData.COFFEE_SHOP_HEIGHT);
+
+        /// <summary>
+        /// Static constructor to setup various CoffeeShop components
+        /// </summary>
+        static CoffeeShop()
+        {
+            // Loading background image
+            backgroundImage = Main.Content.Load<Texture2D>("Images/Backgrounds/coffeeShopBackground");
+        }
+
+        public CoffeeShop()
+        {
+
+        }
+
         /// <summary>
         /// Update subprogram for CoffeeShop object
         /// </summary>
@@ -105,6 +123,9 @@ namespace A4_DataManagement
         /// <param name="spriteBatch">SpriteBatch to draw sprites</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Drawing coffee shop background
+            spriteBatch.Draw(backgroundImage, backgroundRectangle, Color.White);
+
             // Drawing all lines
             cashierLine.Draw(spriteBatch);
             insideLine.Draw(spriteBatch);

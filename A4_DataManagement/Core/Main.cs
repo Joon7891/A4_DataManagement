@@ -40,7 +40,7 @@ namespace A4_DataManagement
         public static MouseState OldMouse { get; private set; }
 
         // Instance of the coffee shop and its customers
-        private CoffeeShop coffeeShop = new CoffeeShop();
+        private CoffeeShop coffeeShop;
         private Customer[] topFiveCustomers = new Customer[0];
 
         // Time related variables
@@ -118,6 +118,8 @@ namespace A4_DataManagement
             borderRectangles[6] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT - BORDER_SIZE, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
             leaderboardBackgroundImage = Content.Load<Texture2D>("Images/Backgrounds/woodBackgroundImage");
             leaderboardBackgroundRectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.COFFEE_SHOP_WIDTH, SharedData.SCREEN_HEIGHT);
+
+            coffeeShop = new CoffeeShop();
 
             // Setting up statistics text locations
             headerTextLocs[0] = new Vector2(920, 20);
@@ -206,8 +208,6 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // Beginning spriteBatch
             spriteBatch.Begin();
 
