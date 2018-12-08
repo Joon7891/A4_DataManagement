@@ -39,14 +39,14 @@ namespace A4_DataManagement
         public void Enqueue(Customer customer)
         {
             // Adding customer to the end of the queue list
-            customer.SetMovement(GetDestinationLocation(Size));
+            customer.AddTargetLocations(GetDestinationLocation(Size));
             customers.Add(customer);
         }
 
         /// <summary>
         /// Subprogram to remove and return the customer in the front of the outside line queue
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The first customer in the queue</returns>
         public Customer Dequeue()
         {
             // Caching customer in front of the queue
@@ -61,7 +61,7 @@ namespace A4_DataManagement
                 // Shifting customers
                 for (int i = 0; i < customers.Count; ++i)
                 {
-                    customers[i].SetMovement(GetDestinationLocation(i));
+                    customers[i].AddTargetLocations(GetDestinationLocation(i));
                 }
             }
 
@@ -128,15 +128,8 @@ namespace A4_DataManagement
         /// <returns>The destination location of the customer</returns>
         private Vector2 GetDestinationLocation(int index)
         {
-            // If
-            if (index == 0)
-            {
-                return new Vector2(SharedData.HORIZONTAL_BUFFER - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 4 * SharedData.CUSTOMER_HEIGHT);
-            }
-            else
-            {
-                return new Vector2(SharedData.HORIZONTAL_BUFFER * index - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
-            }
+            // Returning the destination rectangle of the customer
+            return new Vector2(SharedData.HORIZONTAL_BUFFER * (index + 1) - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
         }
     }
 }

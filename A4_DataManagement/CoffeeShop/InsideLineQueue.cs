@@ -74,13 +74,13 @@ namespace A4_DataManagement
         /// <summary>
         /// Subprogram to add a customer to the back of the inside line queue
         /// </summary>
-        /// <param name="customer"></param>
+        /// <param name="customer">The customer to be added to the end</param>
         public void Enqueue(Customer customer)
         {
             // Adding customer to the end of the queue if there is room
             if (Size < MAX_SIZE)
             {
-                customer.SetMovement(customerLocations[Size], Size + 1 == MAX_SIZE);
+                customer.AddTargetLocations(ArrayHelper<Vector2>.GetSubarray(customerLocations.Reverse().ToArray(), 0, MAX_SIZE - Size));
                 customers[Size++] = customer;
             }
         }
@@ -88,7 +88,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Subprogram to remove and return the customer in front of the inside line queue
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The first customer in the queue</returns>
         public Customer Dequeue()
         {
             // Caching the customer in front of the line
@@ -97,7 +97,7 @@ namespace A4_DataManagement
             // Shifting customers down the line
             for (int i = 1; i < Math.Min(Size, MAX_SIZE); ++i)
             {
-                customers[i].SetMovement(customerLocations[i - 1]);
+                customers[i].AddTargetLocations(customerLocations[i - 1]);
                 customers[i - 1] = customers[i];
             }
 

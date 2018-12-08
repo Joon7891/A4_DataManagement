@@ -108,7 +108,7 @@ namespace A4_DataManagement
                     // Making customer exit if they have been servied
                     if (cashierCustomers[i].Serviced)
                     {
-                        cashierCustomers[i].SetMovement(exitLocations[i]);
+                        cashierCustomers[i].AddTargetLocations(exitLocations[i]);
                         exitingCustomers.Add(cashierCustomers[i]);
                         cashierCustomers[i] = null;
                     }
@@ -176,7 +176,7 @@ namespace A4_DataManagement
                 if (cashierCustomers[i] == null)
                 {
                     cashierCustomers[i] = customer;
-                    cashierCustomers[i].SetMovement(cashierLocations[i]);
+                    cashierCustomers[i].AddTargetLocations(cashierLocations[i]);
                     return;
                 }
             }
