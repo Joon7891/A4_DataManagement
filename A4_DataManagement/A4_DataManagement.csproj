@@ -41,20 +41,22 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CoffeeShop\InsideLineQueue.cs" />
-    <Compile Include="CoffeeShop\IQueue.cs" />
-    <Compile Include="CoffeeShop\OutsideLineQueue.cs" />
+    <Compile Include="DataStructures\ArrayQueue.cs" />
+    <Compile Include="DataStructures\InsideLineQueue.cs" />
+    <Compile Include="DataStructures\IQueue.cs" />
+    <Compile Include="DataStructures\ListQueue.cs" />
+    <Compile Include="DataStructures\OutsideLineQueue.cs" />
     <Compile Include="Customer\BothCustomer.cs" />
     <Compile Include="Customer\CoffeeCustomer.cs" />
     <Compile Include="Customer\Direction.cs" />
     <Compile Include="Customer\FoodCustomer.cs" />
-    <Compile Include="CoffeeShop\CashierLine.cs" />
+    <Compile Include="DataStructures\CashierLine.cs" />
     <Compile Include="Customer\Customer.cs" />
     <Compile Include="Core\Main.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\SharedData.cs" />
-    <Compile Include="CoffeeShop\CoffeeShop.cs" />
+    <Compile Include="Core\CoffeeShop.cs" />
     <Compile Include="Utility\ArrayHelper.cs" />
     <Compile Include="Utility\Button.cs" />
     <Compile Include="Utility\ColissionHelper.cs" />

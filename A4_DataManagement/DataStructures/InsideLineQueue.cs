@@ -16,22 +16,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace A4_DataManagement
 {
-    public sealed class InsideLineQueue : IQueue<Customer>, IEntity
+    public sealed class InsideLineQueue : ArrayQueue<Customer>, IEntity
     {
         // Customer-related variables
         private const int MAX_SIZE = 16;
-        private Customer[] customers = new Customer[MAX_SIZE];
         private static Vector2[] customerLocations = new Vector2[MAX_SIZE];
-
-        /// <summary>
-        /// The number of customers in the inside line queue
-        /// </summary>
-        public int Size { get; private set; }
-
-        /// <summary>
-        /// Whether the inside line queue is empty
-        /// </summary>
-        public bool IsEmpty => Size == 0;
 
         /// <summary>
         /// Static constructor to setup InsideLineQueue class
@@ -43,6 +32,14 @@ namespace A4_DataManagement
             {
                 customerLocations[i] = GetCustomerLocation(i);
             }
+        }
+
+        /// <summary>
+        /// Constructor for InsideLineQueue
+        /// </summary>
+        public InsideLineQueue() : base(MAX_SIZE)
+        {
+            // Constructor is empty as only base constructor needs to be called
         }
 
         /// <summary>
@@ -75,13 +72,13 @@ namespace A4_DataManagement
         /// Subprogram to add a customer to the back of the inside line queue
         /// </summary>
         /// <param name="customer">The customer to be added to the end</param>
-        public void Enqueue(Customer customer)
+        public override void Enqueue(Customer customer)
         {
             // Adding customer to the end of the queue if there is room
             if (Size < MAX_SIZE)
             {
                 customer.AddTargetLocations(ArrayHelper<Vector2>.GetSubarray(customerLocations.Reverse().ToArray(), 0, MAX_SIZE - Size));
-                customers[Size++] = customer;
+                items[Size++] = customer;
             }
         }
 
@@ -89,16 +86,16 @@ namespace A4_DataManagement
         /// Subprogram to remove and return the customer in front of the inside line queue
         /// </summary>
         /// <returns>The first customer in the queue</returns>
-        public Customer Dequeue()
+        public override Customer Dequeue()
         {
             // Caching the customer in front of the line
-            Customer frontCustomer = customers[0];
+            Customer frontCustomer = items[0];
 
             // Shifting customers down the line
-            for (int i = 1; i < Math.Min(Size, MAX_SIZE); ++i)
+            for (int i = 1; i < Size; ++i)
             {
-                customers[i].AddTargetLocations(customerLocations[i - 1]);
-                customers[i - 1] = customers[i];
+                items[i].AddTargetLocations(customerLocations[i - 1]);
+                items[i - 1] = items[i];
             }
 
             // Decrementing size
@@ -109,29 +106,13 @@ namespace A4_DataManagement
         }
 
         /// <summary>
-        /// Subprogram to return the customer in front of the inside line queue
-        /// </summary>
-        /// <returns>The customer in front of the inside line</returns>
-        public Customer Peek()
-        {
-            // Returning customer in front of the line if one exists
-            if (Size > 0)
-            {
-                return customers[0];
-            }
-
-            // Otherwise returning null
-            return null;
-        }
-
-        /// <summary>
         /// Subprogram to 'convert' the InsideLineQueue into an array
         /// </summary>
         /// <returns>An array containing the inside line queue customers</returns>
         public Customer[] ToArray()
         {
             // Returning an array of customers in the inside line queue
-            return ArrayHelper<Customer>.GetSubarray(customers, 0, Size);                
+            return ArrayHelper<Customer>.GetSubarray(items, 0, Size);                
         }
 
         /// <summary>
@@ -143,7 +124,7 @@ namespace A4_DataManagement
             // Updating customers in the inside line
             for (int i = 0; i < Size; ++i)
             {
-                customers[i].Update(gameTime);
+                items[i].Update(gameTime);
             }
         }
 
@@ -156,7 +137,7 @@ namespace A4_DataManagement
             // Drawing customers in the inside line
             for (int i = 0; i < Size; ++i)
             {
-                customers[i].Draw(spriteBatch);
+                items[i].Draw(spriteBatch);
             }
         }
     }

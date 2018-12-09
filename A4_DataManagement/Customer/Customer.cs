@@ -33,7 +33,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Whether the customer is currently moving
         /// </summary>
-        public bool IsMoving => targetQueue.Count > 0 || !(rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y);
+        public bool IsMoving => targetQueue.Size > 0 || !(rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y);
 
         // Time and service related variables
         private double waitTime = 0;
@@ -48,7 +48,7 @@ namespace A4_DataManagement
         private int imageNumber = 0;
 
         // Movement related variables
-        private Queue<Vector2> targetQueue = new Queue<Vector2>();
+        private ListQueue<Vector2> targetQueue = new ListQueue<Vector2>();
         private Rectangle rectangle;
         private Vector2 currentTarget;
         private Vector2 velocity;
@@ -135,7 +135,7 @@ namespace A4_DataManagement
             }
 
             // Moving onto next target if Customer has reached current target
-            if (rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y && targetQueue.Count > 0)
+            if (rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y && targetQueue.Size > 0)
             {
                 currentTarget = targetQueue.Dequeue();
                 SetMovement();

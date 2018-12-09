@@ -28,7 +28,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Subprogram to add an item to the end of a queue
         /// </summary>
-        /// <param name="item">The item ot be added</param>
+        /// <param name="item">The item to be added</param>
         void Enqueue(T item);
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace A4_DataManagement
         T Dequeue();
 
         /// <summary>
-        /// Subprogram to return the item in front of a queue
+        /// Subprogram to peek the item in front of a queue
         /// </summary>
         /// <returns>The item in front of the queue</returns>
         T Peek();

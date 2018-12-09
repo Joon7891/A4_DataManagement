@@ -14,75 +14,45 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
 namespace A4_DataManagement
 {
-    public sealed class OutsideLineQueue : IQueue<Customer>, IEntity
+    public sealed class OutsideLineQueue : ListQueue<Customer>, IEntity
     {
-        // List of customers in the outside line
-        private List<Customer> customers = new List<Customer>();
-
-        /// <summary>
-        /// The number the customers in the outside line queue
-        /// </summary>
-        public int Size => customers.Count;
-
-        /// <summary>
-        /// Whether the outside line queue is empty
-        /// </summary>
-        public bool IsEmpty => Size == 0;
-
         /// <summary>
         /// Subprogram to add a customer to the end of the outside line queue
         /// </summary>
         /// <param name="customer">The customer to be added</param>
-        public void Enqueue(Customer customer)
+        public override void Enqueue(Customer customer)
         {
             // Adding customer to the end of the queue list
             customer.AddTargetLocations(GetDestinationLocation(Size));
-            customers.Add(customer);
+            base.Enqueue(customer);
         }
 
         /// <summary>
         /// Subprogram to remove and return the customer in the front of the outside line queue
         /// </summary>
         /// <returns>The first customer in the queue</returns>
-        public Customer Dequeue()
+        public override Customer Dequeue()
         {
             // Caching customer in front of the queue
             Customer frontCustomer = null;
 
             // Adding customer in front of the line - if one exists
-            if (customers.Count > 0)
+            if (!IsEmpty)
             {
-                frontCustomer = customers[0];
-                customers.RemoveAt(0);
+                frontCustomer = items[0];
+                items.RemoveAt(0);
 
                 // Shifting customers
-                for (int i = 0; i < customers.Count; ++i)
+                for (int i = 0; i < items.Count; ++i)
                 {
-                    customers[i].AddTargetLocations(GetDestinationLocation(i));
+                    items[i].AddTargetLocations(GetDestinationLocation(i));
                 }
             }
 
             // Returning customer in front of the line
             return frontCustomer;
-        }
-
-        /// <summary>
-        /// Subprogram to return the customer in front of the outside line queue
-        /// </summary>
-        /// <returns>The customer in front of the outside line queue</returns>
-        public Customer Peek()
-        {
-            // Returning the customer in front of the line - if one exists
-            if (Size > 0)
-            {
-                return customers[0];
-            }
-
-            // Otherwise returning null
-            return null;
         }
 
         /// <summary>
@@ -92,7 +62,7 @@ namespace A4_DataManagement
         public Customer[] ToArray()
         {
             // Returning an array of customers
-            return customers.ToArray();
+            return items.ToArray();
         }
 
         /// <summary>
@@ -102,9 +72,9 @@ namespace A4_DataManagement
         public void Update(GameTime gameTime)
         {
             // Updating customers in the outside line
-            for (int i = 0; i < customers.Count; ++i)
+            for (int i = 0; i < items.Count; ++i)
             {
-                customers[i].Update(gameTime);
+                items[i].Update(gameTime);
             }
         }
 
@@ -115,9 +85,9 @@ namespace A4_DataManagement
         public void Draw(SpriteBatch spriteBatch)
         {
             // Drawing customers in the outside line
-            for (int i = 0; i < customers.Count; ++i)
+            for (int i = 0; i < items.Count; ++i)
             {
-                customers[i].Draw(spriteBatch);
+                items[i].Draw(spriteBatch);
             }
         }
 
