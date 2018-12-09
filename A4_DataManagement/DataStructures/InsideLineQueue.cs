@@ -3,7 +3,7 @@
 // Project Name: A4_DataManagement
 // Creation Date: 11/29/2018
 // Modified Date: 11/29/2018
-// Description: Class to hold InsideLineQueue object; inherits from IQueue and IEntity interfaces
+// Description: Class to hold InsideLineQueue object; inherits from ArrayQueue and IEntity
 
 using System;
 using System.Collections.Generic;
