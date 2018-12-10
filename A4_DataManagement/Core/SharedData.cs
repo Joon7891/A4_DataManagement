@@ -53,12 +53,17 @@ namespace A4_DataManagement
         /// <summary>
         /// The vertical buffer of the customer's location
         /// </summary>
-        public const int VERTICAL_BUFFER = 150;
+        public const int VERTICAL_BUFFER = 60;
 
         /// <summary>
-        /// The horizontal buffer of the customer's location
+        /// The horizontal spacing of the customer's location
         /// </summary>
-        public const int HORIZONTAL_BUFFER = 100;
+        public const int HORIZONTAL_SPACING = 100;
+
+        /// <summary>
+        /// The vertical spacing of the customer's location
+        /// </summary>
+        public const int VERTICAL_SPACING = 60;
 
         /// <summary>
         /// Static constructor to initialize SharedData class data

@@ -99,7 +99,7 @@ namespace A4_DataManagement
         private Vector2 GetDestinationLocation(int index)
         {
             // Returning the destination rectangle of the customer
-            return new Vector2(SharedData.HORIZONTAL_BUFFER * (index + 1) - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 5 * SharedData.CUSTOMER_HEIGHT);
+            return new Vector2(SharedData.HORIZONTAL_SPACING * (index + 1) - SharedData.CUSTOMER_WIDTH / 2, SharedData.VERTICAL_BUFFER + 6 * SharedData.CUSTOMER_HEIGHT);
         }
     }
 }
