@@ -70,7 +70,7 @@ namespace A4_DataManagement
             // Setting up customer locations
             for (int i = 0; i < TOTAL_CASHIERS; ++i)
             {
-                cashierLocations[i] = new Vector2(74 + 2 * SharedData.HORIZONTAL_BUFFER * i, SharedData.VERTICAL_BUFFER - SharedData.CUSTOMER_HEIGHT);
+                cashierLocations[i] = new Vector2(74 + 2 * SharedData.HORIZONTAL_BUFFER * i, SharedData.VERTICAL_BUFFER - 3 * SharedData.CUSTOMER_HEIGHT / 2);
                 exitLocations[i] = new Vector2(74 + (i % 2 == 0 ? -1 : 1) * SharedData.CUSTOMER_WIDTH + 2 * SharedData.HORIZONTAL_BUFFER * i, -SharedData.CUSTOMER_HEIGHT);
             }
         }
