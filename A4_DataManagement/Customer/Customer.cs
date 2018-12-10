@@ -69,7 +69,7 @@ namespace A4_DataManagement
         /// </summary>
         public Customer()
         {
-            // Constructing initial customer rectangle
+            // Constructing initial customer rectangle 
             rectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH + SharedData.CUSTOMER_WIDTH, SharedData.VERTICAL_BUFFER + 6 * SharedData.CUSTOMER_HEIGHT,
                 SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             currentTarget.X = rectangle.X;
