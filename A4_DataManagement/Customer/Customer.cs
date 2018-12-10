@@ -141,7 +141,7 @@ namespace A4_DataManagement
                 SetMovement();
             }
 
-            // Moving customer in appropraite direction
+            // Moving customer in appropriate direction
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity if horizontal movement will overshoot
