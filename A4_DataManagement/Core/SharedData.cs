@@ -37,11 +37,6 @@ namespace A4_DataManagement
         public const int COFFEE_SHOP_WIDTH = 800;
 
         /// <summary>
-        /// Random number generator
-        /// </summary>
-        public static Random RNG { get; private set; }
-
-        /// <summary>
         /// The width of the customer
         /// </summary>
         public const int CUSTOMER_WIDTH = 52;
@@ -65,6 +60,11 @@ namespace A4_DataManagement
         /// The vertical spacing of the customer's location
         /// </summary>
         public const int VERTICAL_SPACING = 60;
+
+        /// <summary>
+        /// Random number generator
+        /// </summary>
+        public static Random RNG { get; private set; }
 
         /// <summary>
         /// A white sprite

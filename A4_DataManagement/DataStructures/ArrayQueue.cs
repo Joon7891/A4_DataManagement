@@ -36,7 +36,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Constructor for ArrayQueue object
         /// </summary>
-        /// <param name="maxSize"></param>
+        /// <param name="maxSize">The max size of the ArrayQueue</param>
         public ArrayQueue(int maxSize)
         {
             // Setting up ArrayQueue with given max size

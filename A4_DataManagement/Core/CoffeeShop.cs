@@ -63,7 +63,7 @@ namespace A4_DataManagement
         private const int ADD_TIME = 3;
         private float addTimer = 0;
 
-
+        // Background related variables
         private static Texture2D backgroundImage;
         private static Rectangle backgroundRectangle = new Rectangle(0, 0, SharedData.COFFEE_SHOP_WIDTH, SharedData.COFFEE_SHOP_HEIGHT);
 
@@ -74,11 +74,6 @@ namespace A4_DataManagement
         {
             // Loading background image
             backgroundImage = Main.Content.Load<Texture2D>("Images/Backgrounds/coffeeShopBackground");
-        }
-
-        public CoffeeShop()
-        {
-
         }
 
         /// <summary>

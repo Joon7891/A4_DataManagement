@@ -167,7 +167,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Subprogram to add a customer to the cashier line
         /// </summary>
-        /// <param name="customer"></param>
+        /// <param name="customer">The customer to be added</param>
         public void AddCustomer(Customer customer)
         {
             // Determining opening and adding customer as appropriate

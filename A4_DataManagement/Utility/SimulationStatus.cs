@@ -3,7 +3,7 @@
 // Project Name: A4_DataManagement
 // Creation Date: 12/07/2018
 // Modified Date: 12/07/2018
-// Description: Class to hold GameStatus enum
+// Description: Class to hold SimulationStatus enum
 
 using System;
 using System.Collections.Generic;

@@ -67,7 +67,7 @@ namespace A4_DataManagement
         /// <param name="firstArray">The first array to be merged</param>
         /// <param name="secondArray">The second array to be merged</param>
         /// <param name="comparer">The comparator to determine which element takes priority</param>
-        /// <returns></returns>
+        /// <returns>The merged array</returns>
         private static T[] Merge(T[] firstArray, T[] secondArray, Comparator comparator)
         {
             // Initializing merged array and indexers

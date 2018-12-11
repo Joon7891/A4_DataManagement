@@ -49,7 +49,7 @@ namespace A4_DataManagement
 
         // Status related variables
         private SimulationStatus simulationStatus = SimulationStatus.NotStarted;
-        private Rectangle buttonRectangle = new Rectangle(1055, 540, 120, 40); // = new Rectangle(x, y, 120, 40);
+        private Rectangle buttonRectangle = new Rectangle(1055, 540, 120, 40); 
         private Button[] statusButtons = new Button[3];
 
         // Variables related to drawing the background for the leaderboard

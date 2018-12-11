@@ -75,7 +75,7 @@ namespace A4_DataManagement
         /// <summary>
         /// Constructor for Customer object
         /// </summary>
-        public Customer()
+        protected Customer()
         {
             // Constructing initial customer rectangle 
             rectangle = new Rectangle(SharedData.COFFEE_SHOP_WIDTH + SharedData.CUSTOMER_WIDTH, SharedData.VERTICAL_BUFFER + 6 * SharedData.CUSTOMER_HEIGHT,
