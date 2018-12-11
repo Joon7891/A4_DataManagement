@@ -28,9 +28,12 @@ namespace A4_DataManagement
         static InsideLineQueue()
         {
             // Setting up customer locations
-            for (int i = 0; i < MAX_SIZE; ++i)
+            customerLocations[0] = new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 3 * SharedData.HORIZONTAL_SPACING, SharedData.VERTICAL_BUFFER + SharedData.VERTICAL_SPACING);
+            customerLocations[8] = new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_SPACING, SharedData.VERTICAL_BUFFER + 4 * SharedData.VERTICAL_SPACING);
+            for (int i = 0; i < 7; ++i)
             {
-                customerLocations[i] = GetCustomerLocation(i);
+                customerLocations[i + 1] = new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + SharedData.HORIZONTAL_SPACING * (i - 3), SharedData.VERTICAL_BUFFER + 3 * SharedData.VERTICAL_SPACING);
+                customerLocations[i + 9] = new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_SPACING * (i + 1), SharedData.VERTICAL_BUFFER + 5 * SharedData.VERTICAL_SPACING);
             }
         }
 
@@ -40,32 +43,6 @@ namespace A4_DataManagement
         public InsideLineQueue() : base(MAX_SIZE)
         {
             // Constructor is empty as only base constructor needs to be called
-        }
-
-        /// <summary>
-        /// Subprogram to generate the customer location
-        /// </summary>
-        /// <param name="index">The index of the customer location</param>
-        /// <returns>The customer location</returns>
-        private static Vector2 GetCustomerLocation(int index)
-        {
-            // Returning appropriate customer vector based on index
-            if (index == 0)
-            {
-                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 - 3 * SharedData.HORIZONTAL_SPACING, SharedData.VERTICAL_BUFFER + SharedData.VERTICAL_SPACING);
-            }
-            else if (index < 8)
-            {
-                return new Vector2((SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH) / 2 + SharedData.HORIZONTAL_SPACING * (index - 4), SharedData.VERTICAL_BUFFER + 3 * SharedData.VERTICAL_SPACING);
-            }
-            else if (index == 8)
-            {
-                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_SPACING, SharedData.VERTICAL_BUFFER + 4 * SharedData.VERTICAL_SPACING);
-            }
-            else
-            {
-                return new Vector2(SharedData.COFFEE_SHOP_WIDTH - SharedData.CUSTOMER_WIDTH / 2 - SharedData.HORIZONTAL_SPACING * (index - 8), SharedData.VERTICAL_BUFFER + 5 * SharedData.VERTICAL_SPACING);
-            }
         }
 
         /// <summary>
