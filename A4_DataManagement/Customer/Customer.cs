@@ -116,6 +116,7 @@ namespace A4_DataManagement
                 Move(gameTime);
             }
 
+            // Updating progress bar rectangle properties
             progressBarRectangle.X = textRectangle.X;
             progressBarRectangle.Y = textRectangle.Y;
             progressBarRectangle.Width = (int)(textRectangle.Width * (timeServed / timeToServe) + 0.5);
@@ -130,7 +131,7 @@ namespace A4_DataManagement
             // Drawing customer and its name 
             spriteBatch.Draw(currentImage, rectangle, Color.White);
             spriteBatch.Draw(SharedData.WhiteImage, textRectangle, Color.White * 0.5f);
-            spriteBatch.Draw(SharedData.WhiteImage, progressBarRectangle, Color.LightGreen * 0.6f);
+            spriteBatch.Draw(SharedData.WhiteImage, progressBarRectangle, Color.Green * 0.6f);
             spriteBatch.DrawString(nameFont, Name, nameTextLocation, Color.Black);
         }
 
@@ -179,7 +180,7 @@ namespace A4_DataManagement
                     velocity.X = (currentTarget.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
-                // Moving customer and name text
+                // Moving customer and header
                 nameTextLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
                 nonRoundedTextLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
                 nonRoundedLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
@@ -200,7 +201,7 @@ namespace A4_DataManagement
                     velocity.Y = (currentTarget.Y - rectangle.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
-                // Moving customer rectangle
+                // Moving customer and header
                 nameTextLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
                 nonRoundedTextLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
                 nonRoundedLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
