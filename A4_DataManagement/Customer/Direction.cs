@@ -16,7 +16,7 @@ namespace A4_DataManagement
     /// <summary>
     /// Direction enum to hold various directions that a customer can travel
     /// </summary>
-    public enum Direction
+    public enum Direction : byte
     {
         Up = 0,
         Right = 1,

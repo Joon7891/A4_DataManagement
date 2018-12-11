@@ -32,9 +32,9 @@ namespace A4_DataManagement
             // Importing directional images for CoffeeCustomer
             for (Direction direction = Direction.Up; direction <= Direction.Left; ++direction)
             {
-                for (int i = 0; i < directionalImages.GetLength(1); ++i)
+                for (byte i = 0; i < directionalImages.GetLength(1); ++i)
                 {
-                    directionalImages[(int)direction, i] = Main.Content.Load<Texture2D>
+                    directionalImages[(byte)direction, i] = Main.Content.Load<Texture2D>
                         ($"Images/Sprites/Customers/BothCustomer/bothCustomer{direction.ToString()}{i}");
                 }
             }

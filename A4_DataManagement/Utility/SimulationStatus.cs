@@ -16,7 +16,7 @@ namespace A4_DataManagement
     /// <summary>
     /// Enum containing various simulation status types
     /// </summary>
-    public enum SimulationStatus
+    public enum SimulationStatus : byte
     {
         NotStarted,
         Playing,

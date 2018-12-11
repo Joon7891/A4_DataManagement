@@ -27,7 +27,6 @@ namespace A4_DataManagement
         private Texture2D image;
         private Rectangle rect;
 
-
         /// <summary>
         /// Whether the mouse is hovering above the button
         /// </summary>
