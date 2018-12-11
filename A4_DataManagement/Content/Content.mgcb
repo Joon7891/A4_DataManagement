@@ -556,3 +556,10 @@
 /processorParam:TextureFormat=Color
 /build:Images/Backgrounds/coffeeShopBackground.png
 
+#begin Fonts/NameFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/NameFont.spritefont
+

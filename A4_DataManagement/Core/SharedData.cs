@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace A4_DataManagement
 {
@@ -66,12 +67,18 @@ namespace A4_DataManagement
         public const int VERTICAL_SPACING = 60;
 
         /// <summary>
+        /// A white sprite
+        /// </summary>
+        public static Texture2D WhiteImage { get; private set; }
+
+        /// <summary>
         /// Static constructor to initialize SharedData class data
         /// </summary>
         static SharedData()
         {
-            // Constructing random number generator
+            // Setting up various SharedData variables
             RNG = new Random();
+            WhiteImage = Main.Content.Load<Texture2D>("Images/Sprites/whiteImage");
         }
     }
 }

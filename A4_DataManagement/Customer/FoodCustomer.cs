@@ -47,9 +47,10 @@ namespace A4_DataManagement
         public FoodCustomer(int ID) : base()
         {
             // Setting up various food customer attributes
-            serviceTime = SERVICE_TIME;
+            timeToServe = SERVICE_TIME;
             Name = $"Food{ID}";
             base.directionalImages = directionalImages;
+            SetupHeader();
         }
     }
 }

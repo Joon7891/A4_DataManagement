@@ -54,7 +54,6 @@ namespace A4_DataManagement
 
         // Variables related to drawing the background for the leaderboard
         private const int BORDER_SIZE = 6;
-        private Texture2D borderImage;
         private Rectangle[] borderRectangles = new Rectangle[7];
         private Texture2D leaderboardBackgroundImage;
         private Rectangle leaderboardBackgroundRectangle;
@@ -108,7 +107,6 @@ namespace A4_DataManagement
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Setting up leaderboard background
-            borderImage = Content.Load<Texture2D>("Images/Sprites/whiteImage");
             borderRectangles[0] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, BORDER_SIZE, SharedData.SCREEN_HEIGHT);
             borderRectangles[1] = new Rectangle(SharedData.SCREEN_WIDTH - BORDER_SIZE, 0, BORDER_SIZE, SharedData.SCREEN_HEIGHT);
             borderRectangles[2] = new Rectangle(SharedData.COFFEE_SHOP_WIDTH, 0, SharedData.SCREEN_WIDTH - SharedData.CUSTOMER_WIDTH, BORDER_SIZE);
@@ -218,7 +216,7 @@ namespace A4_DataManagement
             spriteBatch.Draw(leaderboardBackgroundImage, leaderboardBackgroundRectangle, Color.White);
             for (int i = 0; i < borderRectangles.Length; ++i)
             {
-                spriteBatch.Draw(borderImage, borderRectangles[i], Color.White);
+                spriteBatch.Draw(SharedData.WhiteImage, borderRectangles[i], Color.White);
             }
 
             // Drawing max, min, and average wait time information

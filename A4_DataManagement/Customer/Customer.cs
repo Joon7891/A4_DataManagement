@@ -28,40 +28,48 @@ namespace A4_DataManagement
         /// <summary>
         /// Whether the customer has been serviced yet
         /// </summary>
-        public bool Serviced => serviceTime <= 0;
+        public bool Serviced => timeServed >= timeToServe;
 
         /// <summary>
         /// Whether the customer is currently moving
         /// </summary>
         public bool IsMoving => targetQueue.Size > 0 || !(rectangle.X == currentTarget.X && rectangle.Y == currentTarget.Y);
 
-        // Time and service related variables
+        // Service time related variables
         private double waitTime = 0;
-        protected double serviceTime;
+        private double timeServed;
+        protected double timeToServe;
         private static SoundEffect serveSoundEffect;
 
-        // Graphics related-data
+        // Graphics and animation related data
         private Direction currentDirection = Direction.Left;
         protected Texture2D[,] directionalImages;
         protected Texture2D currentImage;
+        private Rectangle rectangle;
         private int frameCounter = 1;
         private int imageNumber = 0;
 
-        // Movement related variables
+        // Movement related variables 
         private ListQueue<Vector2> targetQueue = new ListQueue<Vector2>();
-        private Rectangle rectangle;
+        private Vector2 nonRoundedLocation;
         private Vector2 currentTarget;
         private Vector2 velocity;
-        private double nonRoundedX;
-        private double nonRoundedY;
+
+        // Customer "header" (includes name and time-served progress bar) related data
+        private Vector2 nonRoundedTextLocation;
+        private Vector2 nameTextLocation;
+        private Rectangle progressBarRectangle;
+        private Rectangle textRectangle;
+        private static SpriteFont nameFont;     
 
         /// <summary>
         /// Static constructor to set up Customer class
         /// </summary>
         static Customer()
         {
-            // Loading sound effects
+            // Loading sound effect and fonts
             serveSoundEffect = Main.Content.Load<SoundEffect>("Audio/SoundEffects/serveSoundEffect");
+            nameFont = Main.Content.Load<SpriteFont>("Fonts/NameFont");
         }
 
         /// <summary>
@@ -74,6 +82,20 @@ namespace A4_DataManagement
                 SharedData.CUSTOMER_WIDTH, SharedData.CUSTOMER_HEIGHT);
             currentTarget.X = rectangle.X;
             currentTarget.Y = rectangle.Y;
+        }
+
+        /// <summary>
+        /// Subprogram to setup Customer "header"
+        /// </summary>
+        protected void SetupHeader()
+        {
+            // Setting up various Customer header graphics 
+            nameTextLocation = new Vector2(rectangle.X + (rectangle.Width - nameFont.MeasureString(Name).X) / 2.0f, rectangle.Y - 10);
+            textRectangle = new Rectangle((int)nameTextLocation.X - 5, (int)nameTextLocation.Y - 5, 
+                (int)nameFont.MeasureString(Name).X + 10, (int)nameFont.MeasureString(Name).Y);
+            progressBarRectangle = new Rectangle(textRectangle.X, textRectangle.Y, 0, textRectangle.Height);
+            nonRoundedTextLocation.X = textRectangle.X;
+            nonRoundedTextLocation.Y = textRectangle.Y;
         }
 
         /// <summary>
@@ -93,6 +115,10 @@ namespace A4_DataManagement
             {
                 Move(gameTime);
             }
+
+            progressBarRectangle.X = textRectangle.X;
+            progressBarRectangle.Y = textRectangle.Y;
+            progressBarRectangle.Width = (int)(textRectangle.Width * (timeServed / timeToServe) + 0.5);
         }
 
         /// <summary>
@@ -101,8 +127,11 @@ namespace A4_DataManagement
         /// <param name="spriteBatch">SpriteBatch to draw sprites</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Drawing customer
+            // Drawing customer and its name 
             spriteBatch.Draw(currentImage, rectangle, Color.White);
+            spriteBatch.Draw(SharedData.WhiteImage, textRectangle, Color.White * 0.5f);
+            spriteBatch.Draw(SharedData.WhiteImage, progressBarRectangle, Color.LightGreen * 0.6f);
+            spriteBatch.DrawString(nameFont, Name, nameTextLocation, Color.Black);
         }
 
         /// <summary>
@@ -111,11 +140,11 @@ namespace A4_DataManagement
         /// <param name="gameTime">Provides a snapshot of timing values</param>
         public void Serve(GameTime gameTime)
         {
-            // Decreasing service time
-            serviceTime -= gameTime.ElapsedGameTime.Milliseconds / 1000.0;
+            // Increasing serviced time
+            timeServed += gameTime.ElapsedGameTime.Milliseconds / 1000.0;
 
             // Playing served sound effect if fully served
-            if (serviceTime <= 0)
+            if (Serviced)
             {
                 serveSoundEffect.CreateInstance().Play();
             }
@@ -145,14 +174,17 @@ namespace A4_DataManagement
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity if horizontal movement will overshoot
-                if (Math.Abs(nonRoundedX - currentTarget.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
+                if (Math.Abs(nonRoundedTextLocation.X - currentTarget.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
                 {
                     velocity.X = (currentTarget.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
-                // Moving customer rectangle
-                nonRoundedX += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
-                rectangle.X = (int)(nonRoundedX + 0.5);
+                // Moving customer and name text
+                nameTextLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                nonRoundedTextLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                nonRoundedLocation.X += velocity.X * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                textRectangle.X = (int)(nonRoundedTextLocation.X + 0.5);
+                rectangle.X = (int)(nonRoundedLocation.X + 0.5);
 
                 // Changing direction to vertical if customer should now move vertically
                 if (rectangle.X == currentTarget.X && rectangle.Y != currentTarget.Y)
@@ -163,14 +195,17 @@ namespace A4_DataManagement
             else
             {
                 // Adjusting y-velocity if vertical movement will overshoot
-                if (Math.Abs(nonRoundedY - currentTarget.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.Y))
+                if (Math.Abs(nonRoundedLocation.Y - currentTarget.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.Y))
                 {
                     velocity.Y = (currentTarget.Y - rectangle.Y) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 // Moving customer rectangle
-                nonRoundedY += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0;
-                rectangle.Y = (int)(nonRoundedY + 0.5);
+                nameTextLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                nonRoundedTextLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                nonRoundedLocation.Y += velocity.Y * gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                textRectangle.Y = (int)(nonRoundedTextLocation.Y + 0.5);
+                rectangle.Y = (int)(nonRoundedLocation.Y + 0.5);
 
                 // Changing direction to vertical if customer should now move horizontally
                 if (rectangle.Y == currentTarget.Y && rectangle.X != currentTarget.X)
@@ -212,8 +247,8 @@ namespace A4_DataManagement
             currentDirection = velocity.X < 0 ? Direction.Left : Direction.Right;
 
             // Setting various variables to ensure proper correlation of movement
-            nonRoundedX = rectangle.X;
-            nonRoundedY = rectangle.Y;
+            nonRoundedLocation.X = rectangle.X;
+            nonRoundedLocation.Y = rectangle.Y;
        }
     }
 }

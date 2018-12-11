@@ -47,9 +47,10 @@ namespace A4_DataManagement
         public BothCustomer(int ID) : base()
         {
             // Setting up various both customer attributes
-            serviceTime = SERVICE_TIME;
+            timeToServe = SERVICE_TIME;
             Name = $"Both{ID}";
             base.directionalImages = directionalImages;
+            SetupHeader();
         }
     }
 }

@@ -47,9 +47,10 @@ namespace A4_DataManagement
         public CoffeeCustomer(int ID) : base()
         {
             // Setting up various coffee customer attributes
-            serviceTime = SERVICE_TIME;
+            timeToServe = SERVICE_TIME;
             Name = $"Coffee{ID}";
             base.directionalImages = directionalImages;
+            SetupHeader();
         }
     }
 }
