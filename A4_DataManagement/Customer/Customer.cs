@@ -174,7 +174,7 @@ namespace A4_DataManagement
             if (currentDirection == Direction.Left || currentDirection == Direction.Right)
             {
                 // Adjusting x-velocity if horizontal movement will overshoot
-                if (Math.Abs(nonRoundedTextLocation.X - currentTarget.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
+                if (Math.Abs(nonRoundedLocation.X - currentTarget.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds < Math.Abs(velocity.X))
                 {
                     velocity.X = (currentTarget.X - rectangle.X) * 1000 / gameTime.ElapsedGameTime.Milliseconds;
                 }
